@@ -23,7 +23,7 @@ namespace RayTracer {
     public:
         virtual ~IPrimitiveFactory() = default;
         virtual std::shared_ptr<IPrimitive> createPrimitive(const libconfig::Setting& settings) = 0;
-        std::shared_ptr<IPrimitiveFactory> getFactory(const std::string& type);
+        static std::shared_ptr<IPrimitiveFactory> getFactory(const std::string& type);
     };
 }
 
