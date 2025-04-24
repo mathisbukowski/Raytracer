@@ -9,11 +9,72 @@
 #define SCENEPARSER_HPP
 
 #include <libconfig.h++>
+#include <memory>
+#include <iostream>
+#include <utility>
 
-namespace ray {
+#include "Scene/Camera.hpp"
+#include "Scene/Scene.hpp"
+
+namespace RayTracer {
+    /**
+     * @class SceneParser
+     * @note Have to parse the file passed in parameters. And return all infos needed by the project
+     */
     class SceneParser {
     public:
-        SceneParser();
+        /**
+         * @class SceneParserError
+         * @note Handle all errors in the SceneParser Class
+         */
+        class SceneParserError : public std::exception {
+        public:
+            /**
+             * Constructor of the class SceneParserError
+             * @param message message to throw
+             */
+            explicit SceneParserError(std::string  message): _message(std::move(message)) {}
+            /**
+             * Return the message to throw
+             * @return std::string
+             */
+            [[nodiscard]] const char* what() const noexcept override { return _message.c_str(); }
+        private:
+            std::string _message; ///< Message to throw
+        };
+
+        /**
+         * Constructor of the class SceneParser
+         * @param
+         */
+        SceneParser(const std::string& sceneFile, const std::shared_ptr<Camera>& camera, const std::shared_ptr<Scene>& scene);
+
+        void initializePrimitives();
+
+        [[nodiscard]] std::shared_ptr<libconfig::Setting> getSceneRoot() const;
+
+        template<typename Func>
+        void safeLookup(Func functionToLookUp) {
+            try {
+                functionToLookUp();
+            } catch (const libconfig::SettingNotFoundException& e) {
+                throw SceneParserError(std::string("Setting not found: ") + e.what());
+            } catch (const libconfig::SettingTypeException& e) {
+                throw SceneParserError(std::string("Type error: ") + e.what());
+            } catch (const libconfig::ParseException& e) {
+                throw SceneParserError(std::string("Parse error at ") + e.getFile() + ":" +
+                                       std::to_string(e.getLine()) + " - " + e.getError());
+            } catch (const std::exception& e) {
+                throw SceneParserError(std::string("Error: ") + e.what());
+            }
+        }
+
+    std::shared_ptr<IPrimitive> createPrimitive()
+
+    private:
+        std::shared_ptr<Camera> _camera = nullptr; ///< Camera of the raytracer
+        std::shared_ptr<Scene> _scene = nullptr; ///< Scene of the raytracer
+        std::shared_ptr<libconfig::Setting> _sceneRoot = nullptr; ///< Scene Root with the libconfig++
     };
 };
 
