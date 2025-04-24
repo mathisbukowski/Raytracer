@@ -1,14 +1,10 @@
 /*
 ** EPITECH PROJECT, 2025
-** Raytracer
+** RayTracer
 ** File description:
-** 04
+** main
 */
 
-#include <cstdio>
-
-int main()
-{
-    printf("Hello, World!\n");
+int main() {
     return 0;
-};
+}
