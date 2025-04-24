@@ -1,4 +1,12 @@
-#pragma once
+/*
+** EPITECH PROJECT, 2025
+** RayTracer
+** File description:
+** Ray
+*/
+
+#ifndef Ray_HPP_
+#define Ray_HPP_
 
 #include "../Math/Vector3D.hpp"
 
@@ -19,3 +27,5 @@ public:
 };
 
 }
+
+#endif //Ray_HPP_
