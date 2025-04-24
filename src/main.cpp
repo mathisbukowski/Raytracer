@@ -5,6 +5,6 @@
 ** main
 */
 
-int main(int ac, char **av) {
+int main() {
     return 0;
 }
