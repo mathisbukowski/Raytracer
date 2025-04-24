@@ -55,13 +55,14 @@ Vector3D Vector3D::normalized() const {
 }
 
 Vector3D euleurRotation(const Vector3D& v, const Vector3D& rotation) {
+    (void)v;
+
     float pitch = rotation.x * M_PI / 180.0f;
     float yaw   = rotation.y * M_PI / 180.0f;
     float roll  = rotation.z * M_PI / 180.0f;
 
-    float cosx = std::cos(pitch), sinx = std::sin(pitch);
+    float sinx = std::sin(pitch);
     float cosy = std::cos(yaw),   siny = std::sin(yaw);
-    float cosz = std::cos(roll),  sinz = std::sin(roll);
 
     Vector3D forward;
     forward.x = cosy * std::cos(pitch);
