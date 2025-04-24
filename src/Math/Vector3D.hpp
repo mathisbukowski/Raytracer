@@ -86,6 +86,8 @@ namespace RayTracer {
          */
         Vector3D normalized() const;
     };
+  
+    Vector3D eulerRotation(const Vector3D& v, const Vector3D& rotation);
 
     /**
      * Multiplies a scalar by a vector.
@@ -94,7 +96,6 @@ namespace RayTracer {
      * @return The resulting vector after multiplication.
      */
     Vector3D operator*(float scalar, const Vector3D& v);
-
 }
 
 #endif // VECTOR3D_HPP_
