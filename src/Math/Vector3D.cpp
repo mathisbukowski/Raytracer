@@ -63,7 +63,6 @@ Vector3D euleurRotation(const Vector3D& v, const Vector3D& rotation) {
 
     float pitch = rotation.x * M_PI / 180.0f;
     float yaw   = rotation.y * M_PI / 180.0f;
-    float roll  = rotation.z * M_PI / 180.0f;
 
     float sinx = std::sin(pitch);
     float cosy = std::cos(yaw),   siny = std::sin(yaw);
