@@ -26,6 +26,7 @@ public:
     Vector3D cross(const Vector3D& other) const;
     float length() const;
     Vector3D normalized() const;
+    Vector3D eulerRotation(const Vector3D& v, const Vector3D& rotation);
 };
 
 Vector3D operator*(float scalar, const Vector3D& v);

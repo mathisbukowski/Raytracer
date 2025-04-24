@@ -48,9 +48,26 @@ float Vector3D::length() const {
 
 Vector3D Vector3D::normalized() const {
     float len = length();
+
     if (len == 0.0f)
         return *this;
     return *this / len;
+}
+
+Vector3D euleurRotation(const Vector3D& v, const Vector3D& rotation) {
+    float pitch = rotation.x * M_PI / 180.0f;
+    float yaw   = rotation.y * M_PI / 180.0f;
+    float roll  = rotation.z * M_PI / 180.0f;
+
+    float cosx = std::cos(pitch), sinx = std::sin(pitch);
+    float cosy = std::cos(yaw),   siny = std::sin(yaw);
+    float cosz = std::cos(roll),  sinz = std::sin(roll);
+
+    Vector3D forward;
+    forward.x = cosy * std::cos(pitch);
+    forward.y = sinx;
+    forward.z = siny * std::cos(pitch);
+    return forward.normalized();
 }
 
 Vector3D operator*(float scalar, const Vector3D& v) {
