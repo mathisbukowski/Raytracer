@@ -1,0 +1,7 @@
+title: Raytracer
+description: Epitech Raytracer project
+files:
+  - "*.hpp"
+  - "**/*.hpp"
+  - "*.h"
+  - "**/*.h"
