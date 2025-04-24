@@ -20,5 +20,5 @@ std::shared_ptr<RayTracer::IPrimitive> RayTracer::SphereFactory::createPrimitive
     int g = colorSetting.lookup("g");
     int b = colorSetting.lookup("b");
 
-    return std::make_shared<RayTracer::Sphere>(Vector3D(x, y, z), radius, Color(r, g, b));
+    return std::make_shared<RayTracer::Sphere>(Vector3D(x, y, z), radius, Color(r, g, b));f
 }

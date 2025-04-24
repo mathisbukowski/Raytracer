@@ -19,7 +19,7 @@ std::shared_ptr<RayTracer::IPrimitive> RayTracer::ConeFactory::createPrimitive(c
     double ay = axisSetting.lookup("y");
     double az = axisSetting.lookup("z");
 
-    float angle = settings.lookup("angle");
+    double angle = settings.lookup("angle");
 
     const libconfig::Setting& colorSetting = settings.lookup("color");
     int r = colorSetting.lookup("r");

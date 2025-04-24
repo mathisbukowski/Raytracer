@@ -19,7 +19,7 @@ std::shared_ptr<RayTracer::IPrimitive> RayTracer::CylinderFactory::createPrimiti
     double ay = axisSetting.lookup("y");
     double az = axisSetting.lookup("z");
 
-    float radius = settings.lookup("radius");
+    double radius = settings.lookup("radius");
 
     const libconfig::Setting& colorSetting = settings.lookup("color");
     int r = colorSetting.lookup("r");
