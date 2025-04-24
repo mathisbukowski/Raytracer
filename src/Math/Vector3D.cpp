@@ -22,6 +22,10 @@ Vector3D Vector3D::operator-(const Vector3D& other) const {
     return Vector3D(x - other.x, y - other.y, z - other.z);
 }
 
+Vector3D Vector3D::operator-() const {
+    return Vector3D(-x, -y, -z);
+}
+
 Vector3D Vector3D::operator*(float scalar) const {
     return Vector3D(x * scalar, y * scalar, z * scalar);
 }
