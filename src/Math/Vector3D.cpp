@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2025
+** RayTracer
+** File description:
+** Vector3D
+*/
+
 #include "Vector3D.hpp"
 #include <cmath>
 
