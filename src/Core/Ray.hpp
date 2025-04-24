@@ -12,19 +12,42 @@
 
 namespace RayTracer {
 
-class Ray {
-private:
-    Vector3D _origin;
-    Vector3D _direction;
+    /**
+     * @class Ray
+     * Represents a ray in 3D space.
+     */
+    class Ray {
+    private:
+        Vector3D _origin; ///< The origin point of the ray.
+        Vector3D _direction; ///< The direction vector of the ray.
 
-public:
-    Ray(const Vector3D& origin, const Vector3D& direction);
+    public:
+        /**
+         * Constructs a Ray with a specified origin and direction.
+         * @param origin const Vector3D & The origin point of the ray.
+         * @param direction const Vector3D & The direction vector of the ray.
+         */
+        Ray(const Vector3D& origin, const Vector3D& direction);
 
-    const Vector3D& getOrigin() const;
-    const Vector3D& getDirection() const;
+        /**
+         * Gets the origin point of the ray.
+         * @return A constant reference to the origin point.
+         */
+        const Vector3D& getOrigin() const;
 
-    Vector3D pointAt(float t) const;
-};
+        /**
+         * Gets the direction vector of the ray.
+         * @return A constant reference to the direction vector.
+         */
+        const Vector3D& getDirection() const;
+
+        /**
+         * Computes a point along the ray at a given parameter t.
+         * @param t float The parameter along the ray.
+         * @return The computed point as a Vector3D.
+         */
+        Vector3D pointAt(float t) const;
+    };
 
 }
 
