@@ -14,9 +14,9 @@
 namespace RayTracer {
 
 Engine::Engine(int width, int height)
-    : _width(width),
-      _height(height),
-      _camera(Vector3D(0, 0, 0), Vector3D(0, 0, 0), 60.0f, width, height)
+    : _camera(Vector3D(0, 0, 0), Vector3D(0, 0, 0), 60.0f, width, height),
+      _width(width),
+      _height(height)
 {}
 
 void Engine::setScene(const Scene& scene) {
@@ -29,7 +29,7 @@ void Engine::setCamera(const Camera& camera) {
     _cameraSet = true;
 }
 
-static Ray computeReflectedRay(const Point3D& origin, const Vector3D& incident, const Vector3D& normal) {
+Ray Engine::computeReflectedRay(const Point3D& origin, const Vector3D& incident, const Vector3D& normal) {
     Vector3D reflectedDir = incident - 2.0f * incident.dot(normal) * normal;
     return Ray(origin + normal * 0.001f, reflectedDir.normalized());
 }

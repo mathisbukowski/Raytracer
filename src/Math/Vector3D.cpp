@@ -58,7 +58,7 @@ Vector3D Vector3D::normalized() const {
     return *this / len;
 }
 
-Vector3D euleurRotation(const Vector3D& v, const Vector3D& rotation) {
+Vector3D eulerRotation(const Vector3D& v, const Vector3D& rotation) {
     (void)v;
 
     float pitch = rotation.x * M_PI / 180.0f;
