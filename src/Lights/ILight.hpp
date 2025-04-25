@@ -46,6 +46,15 @@ namespace RayTracer {
          * @return True if the light can cast shadows, false otherwise.
          */
         virtual bool canCastShadow() const = 0;
+
+        virtual Vector3D getPosition() const = 0;
+        virtual float getIntensity() const = 0;
+        virtual Vector3D getColor() const = 0;
+
+        virtual bool isAmbient() const {return false;}
+        virtual bool isDirectional() const {return false;}
+        virtual bool isPoint() const {return false;}
+        virtual Vector3D getDirection() const = 0;
     };
 }
 
