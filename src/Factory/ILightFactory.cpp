@@ -9,15 +9,18 @@
 #include "PointLightFactory.hpp"
 #include "DirectionalLightFactory.hpp"
 #include "ILightFactory.hpp"
-#include "SceneParser/SceneParser.hpp"
+#include <unordered_map>
 
 std::shared_ptr<RayTracer::ILightFactory> RayTracer::ILightFactory::getFactory(const std::string& type)
 {
-    if (type == "ambient")
-        return std::make_shared<AmbientLightFactory>();
-    if (type == "directional")
-        return std::make_shared<DirectionalLightFactory>();
-    if (type == "point")
-        return std::make_shared<PointLightFactory>();
-    throw SceneParser::SceneParserError("Unknown light type: " + type);
+    static std::unordered_map<std::string, std::shared_ptr<ILightFactory>> factories = {
+        {"ambient", std::make_shared<AmbientLightFactory>()},
+        {"directional", std::make_shared<DirectionalLightFactory>()},
+        {"point", std::make_shared<PointLightFactory>()},
+    };
+
+    auto it = factories.find(type);
+    if (it != factories.end())
+        return it->second;
+    return nullptr;
 }

@@ -7,6 +7,7 @@
 
 #include "SceneParser.hpp"
 
+#include "Factory/ILightFactory.hpp"
 #include "Factory/PrimitiveFactory.hpp"
 
 RayTracer::SceneParser::SceneParser(const std::string& sceneFile, const std::shared_ptr<Scene>& scene): _camera()
@@ -74,7 +75,14 @@ void RayTracer::SceneParser::initializeLights()
         if (!_sceneRoot->exists("lights"))
            throw SceneParserError("Light not found in config file");
         const libconfig::Setting& lights = (_sceneRoot.operator*())["lights"];
-
+        if (!lights.isList())
+            throw SceneParserError("Light not found in config file");
+        for (int i = 0; i < lights.getLength(); i++) {
+            const libconfig::Setting& light = lights[i];
+                auto lightFactory = ILightFactory::getFactory(light["type"]);
+                auto lightObject = lightFactory->createLight(light);
+                _scene->addLight(lightObject);
+        }
     });
 }
 
