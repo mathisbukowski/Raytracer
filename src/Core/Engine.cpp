@@ -29,12 +29,12 @@ void Engine::setCamera(const Camera& camera) {
     _cameraSet = true;
 }
 
-static Ray computeReflectedRay(const Vector3D& origin, const Vector3D& incident, const Vector3D& normal) {
+static Ray computeReflectedRay(const Point3D& origin, const Vector3D& incident, const Vector3D& normal) {
     Vector3D reflectedDir = incident - 2.0f * incident.dot(normal) * normal;
     return Ray(origin + normal * 0.001f, reflectedDir.normalized());
 }
 
-Color Engine::computeLighting(const Vector3D& point, const Vector3D& normal, const Vector3D& viewDir)
+Color Engine::computeLighting(const Point3D& point, const Vector3D& normal, const Vector3D& viewDir)
 {
     Color lighting(0, 0, 0);
 
@@ -56,7 +56,7 @@ Color Engine::computeLighting(const Vector3D& point, const Vector3D& normal, con
     return lighting;
 }
 
-Color Engine::computeReflection(const Ray& ray, const Vector3D& point, const Vector3D& normal, int depth)
+Color Engine::computeReflection(const Ray& ray, const Point3D& point, const Vector3D& normal, int depth)
 {
     Ray reflectedRay = computeReflectedRay(point, ray.getDirection(), normal);
     return traceRay(reflectedRay, depth + 1);
@@ -77,7 +77,7 @@ Color Engine::traceRay(const Ray& ray, int depth) {
     if (!material)
         return _scene.getBackgroundColor();
 
-    Vector3D intersection = ray.pointAt(t);
+    Point3D intersection = ray.pointAt(t);
     Vector3D viewDir = -ray.getDirection();
 
     Color lighting = computeLighting(intersection, normal, viewDir);
