@@ -17,6 +17,11 @@ namespace RayTracer {
      */
     class ConeFactory : public IPrimitiveFactory {
     public:
+        /**
+         * Creates a cone primitive based on the provided configuration.
+         * @param settings The configuration setting for the cone.
+         * @return A shared pointer to the created cone primitive.
+         */
         std::shared_ptr<IPrimitive> createPrimitive(const libconfig::Setting& settings) override;
     };
 }

@@ -17,6 +17,11 @@ namespace RayTracer {
      */
     class PlaneFactory : public IPrimitiveFactory {
     public:
+        /**
+         * Creates a plane primitive based on the provided configuration.
+         * @param settings The configuration setting for the plane.
+         * @return A shared pointer to the created plane primitive.
+         */
         std::shared_ptr<IPrimitive> createPrimitive(const libconfig::Setting& settings) override;
     };
 }
