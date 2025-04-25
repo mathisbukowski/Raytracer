@@ -47,7 +47,7 @@ namespace RayTracer {
          * Constructor of the class SceneParser
          * @param
          */
-        SceneParser(const std::string& sceneFile, const std::shared_ptr<Camera>& camera, const std::shared_ptr<Scene>& scene);
+        SceneParser(const std::string& sceneFile, const std::shared_ptr<Scene>& scene);
 
         void initializePrimitives();
 
@@ -62,17 +62,27 @@ namespace RayTracer {
             } catch (const libconfig::SettingTypeException& e) {
                 throw SceneParserError(std::string("Type error: ") + e.what());
             } catch (const libconfig::ParseException& e) {
-                throw SceneParserError(std::string("Parse error at ") + e.getFile() + ":" +
-                                       std::to_string(e.getLine()) + " - " + e.getError());
+                throw SceneParserError(std::string("Parse error at ") + e.getFile() + ":" + std::to_string(e.getLine()) + " - " + e.getError());
             } catch (const std::exception& e) {
                 throw SceneParserError(std::string("Error: ") + e.what());
             }
         }
 
-    std::shared_ptr<IPrimitive> createPrimitive()
+        class CameraConfig {
+        public:
+            int width;
+            int height;
+            float rx, ry, rz;
+            float fov;
+            float px, py, pz;
+        };
+
+        Camera initializeCamera();
+
+        void initializeLights();
 
     private:
-        std::shared_ptr<Camera> _camera = nullptr; ///< Camera of the raytracer
+        Camera& _camera; ///< Camera of the raytracer
         std::shared_ptr<Scene> _scene = nullptr; ///< Scene of the raytracer
         std::shared_ptr<libconfig::Setting> _sceneRoot = nullptr; ///< Scene Root with the libconfig++
     };

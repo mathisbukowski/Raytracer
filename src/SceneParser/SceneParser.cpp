@@ -9,15 +9,15 @@
 
 #include "Factory/PrimitiveFactory.hpp"
 
-RayTracer::SceneParser::SceneParser(const std::string& sceneFile, const std::shared_ptr<Camera>& camera, const std::shared_ptr<Scene>& scene)
+RayTracer::SceneParser::SceneParser(const std::string& sceneFile, const std::shared_ptr<Scene>& scene): _camera()
 {
-    _camera = camera;
     _scene = scene;
     if (sceneFile.empty())
         throw SceneParserError("Scene file cannot be empty");
     libconfig::Config config;
     config.readFile(sceneFile.c_str());
     _sceneRoot = std::make_shared<libconfig::Setting>(config.getRoot());
+    _camera = this->initializeCamera();
 }
 
 std::shared_ptr<libconfig::Setting> RayTracer::SceneParser::getSceneRoot() const
@@ -27,7 +27,7 @@ std::shared_ptr<libconfig::Setting> RayTracer::SceneParser::getSceneRoot() const
 
 void RayTracer::SceneParser::initializePrimitives()
 {
-    this->safeLookup([this]() {
+    this->safeLookup([this] {
         if (!_sceneRoot->exists("primitives"))
             throw SceneParserError("Primitives not found in config file");
         std::vector<std::string> types = { "spheres", "planes", "cylinders", "cones" };
@@ -45,4 +45,25 @@ void RayTracer::SceneParser::initializePrimitives()
             }
         }
     });
+}
+
+RayTracer::Camera RayTracer::SceneParser::initializeCamera()
+{
+    auto cameraConfig = std::make_shared<CameraConfig>();
+
+    this->safeLookup([this, cameraConfig] {
+        if (!_sceneRoot->exists("camera"))
+            throw SceneParserError("Camera not found in config file");
+        const libconfig::Setting& camera = (_sceneRoot.operator*())["camera"];
+        camera["resolution"].lookupValue("width", cameraConfig->width);
+        camera["resolution"].lookupValue("height", cameraConfig->height);
+        camera["rotation"].lookupValue("x", cameraConfig->rx);
+        camera["rotation"].lookupValue("y", cameraConfig->ry);
+        camera["rotation"].lookupValue("z", cameraConfig->rz);
+        camera.lookupValue("fov", cameraConfig->fov);
+        camera["position"].lookupValue("x", cameraConfig->px);
+        camera["position"].lookupValue("y", cameraConfig->py);
+        camera["position"].lookupValue("z", cameraConfig->pz);
+    });
+    return {Vector3D(cameraConfig->px, cameraConfig->py, cameraConfig->pz), Vector3D(cameraConfig->rx, cameraConfig->ry, cameraConfig->rz), cameraConfig->fov, cameraConfig->width, cameraConfig->height};
 }
