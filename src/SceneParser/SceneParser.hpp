@@ -49,10 +49,25 @@ namespace RayTracer {
          */
         SceneParser(const std::string& sceneFile, const std::shared_ptr<Scene>& scene);
 
+        /**
+         * Initialize the primitives of the scene
+         * @note This function will parse the scene file and create the primitives
+         */
         void initializePrimitives();
 
+        /**
+         * Get the scene root
+         * @note This function will return the root of the scene
+         * @return std::shared_ptr<libconfig::Setting>
+         */
         [[nodiscard]] std::shared_ptr<libconfig::Setting> getSceneRoot() const;
 
+        /**
+         * Safe lookup function
+         * @note This function will catch all exceptions and throw a SceneParserError
+         * @param functionToLookUp function to look up
+         * @tparam Func function type
+         */
         template<typename Func>
         void safeLookup(Func functionToLookUp) {
             try {
@@ -67,7 +82,10 @@ namespace RayTracer {
                 throw SceneParserError(std::string("Error: ") + e.what());
             }
         }
-
+        /**
+         * @class CameraConfig
+         * @note Handle all camera configuration
+         */
         class CameraConfig {
         public:
             int width;
@@ -77,12 +95,20 @@ namespace RayTracer {
             float px, py, pz;
         };
 
+        /**
+         * Initialize the camera of the scene
+         * @note This function will parse the scene file and create the camera
+         * @return Camera
+         */
         Camera initializeCamera();
 
+        /**
+         * Initialize the lights of the scene
+         * @note This function will parse the scene file and create the lights
+         */
         void initializeLights();
 
     private:
-        Camera& _camera; ///< Camera of the raytracer
         std::shared_ptr<Scene> _scene = nullptr; ///< Scene of the raytracer
         std::shared_ptr<libconfig::Setting> _sceneRoot = nullptr; ///< Scene Root with the libconfig++
     };

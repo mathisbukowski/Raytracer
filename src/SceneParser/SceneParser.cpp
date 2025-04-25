@@ -10,7 +10,8 @@
 #include "Factory/ILightFactory.hpp"
 #include "Factory/PrimitiveFactory.hpp"
 
-RayTracer::SceneParser::SceneParser(const std::string& sceneFile, const std::shared_ptr<Scene>& scene): _camera()
+RayTracer::SceneParser::SceneParser(const std::string& sceneFile, const std::shared_ptr<Scene>& scene)
+    : _sceneRoot(nullptr)
 {
     _scene = scene;
     if (sceneFile.empty())
@@ -18,7 +19,6 @@ RayTracer::SceneParser::SceneParser(const std::string& sceneFile, const std::sha
     libconfig::Config config;
     config.readFile(sceneFile.c_str());
     _sceneRoot = std::make_shared<libconfig::Setting>(config.getRoot());
-    _camera = this->initializeCamera();
 }
 
 std::shared_ptr<libconfig::Setting> RayTracer::SceneParser::getSceneRoot() const
@@ -66,7 +66,9 @@ RayTracer::Camera RayTracer::SceneParser::initializeCamera()
         camera["position"].lookupValue("y", cameraConfig->py);
         camera["position"].lookupValue("z", cameraConfig->pz);
     });
-    return {Vector3D(cameraConfig->px, cameraConfig->py, cameraConfig->pz), Vector3D(cameraConfig->rx, cameraConfig->ry, cameraConfig->rz), cameraConfig->fov, cameraConfig->width, cameraConfig->height};
+    return {Vector3D(cameraConfig->px, cameraConfig->py, cameraConfig->pz), 
+        Vector3D(cameraConfig->rx, cameraConfig->ry, cameraConfig->rz), 
+        cameraConfig->fov, cameraConfig->width, cameraConfig->height};
 }
 
 void RayTracer::SceneParser::initializeLights()
