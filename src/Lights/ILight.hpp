@@ -9,6 +9,7 @@
 #define RAYTRACER_ILIGHT_HPP_
 
 #include "../Math/Vector3D.hpp"
+#include "../Math/Point3D.hpp"
 #include "../Utils/Color.hpp"
 
 namespace RayTracer {
@@ -31,14 +32,14 @@ namespace RayTracer {
          * @param viewDirection const Vector3D & The direction of the viewer.
          * @return The calculated color of the illumination.
          */
-        virtual Color calculateIllumination(const Vector3D& point, const Vector3D& normal, const Vector3D& viewDirection) const = 0;
+        virtual Color calculateIllumination(const Point3D& point, const Vector3D& normal, const Vector3D& viewDirection) const = 0;
 
         /**
          * Gets the direction of the light at a given point.
          * @param point const Vector3D & The point where the light direction is calculated.
          * @return The direction vector of the light.
          */
-        virtual Vector3D getLightDirection(const Vector3D& point) const = 0;
+        virtual Vector3D getLightDirection(const Point3D& point) const = 0;
 
         /**
          * Checks if the light source can cast shadows.

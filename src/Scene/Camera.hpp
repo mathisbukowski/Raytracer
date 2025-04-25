@@ -15,7 +15,7 @@ namespace RayTracer {
 
 class Camera {
 private:
-    Vector3D _position;
+    Point3D _position;
     Vector3D _rotation;
     float _fov;
     int _width;
@@ -27,10 +27,10 @@ private:
     Vector3D _forward;
     Vector3D _horizontal;
     Vector3D _vertical;
-    Vector3D _lowerLeftCorner;
+    Point3D _lowerLeftCorner;
 
 public:
-    Camera(const Vector3D& position, const Vector3D& rotation, float fov, int width, int height);
+    Camera(const Point3D& position, const Vector3D& rotation, float fov, int width, int height);
 
     Ray generateRay(int x, int y) const;
 };
