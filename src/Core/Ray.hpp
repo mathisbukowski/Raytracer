@@ -9,6 +9,7 @@
 #define Ray_HPP_
 
 #include "../Math/Vector3D.hpp"
+#include "../Math/Point3D.hpp"
 
 namespace RayTracer {
 
@@ -18,7 +19,7 @@ namespace RayTracer {
      */
     class Ray {
     private:
-        Vector3D _origin; ///< The origin point of the ray.
+        Point3D _origin; ///< The origin point of the ray.
         Vector3D _direction; ///< The direction vector of the ray.
 
     public:
@@ -27,13 +28,13 @@ namespace RayTracer {
          * @param origin const Vector3D & The origin point of the ray.
          * @param direction const Vector3D & The direction vector of the ray.
          */
-        Ray(const Vector3D& origin, const Vector3D& direction);
+        Ray(const Point3D& origin, const Vector3D& direction);
 
         /**
          * Gets the origin point of the ray.
          * @return A constant reference to the origin point.
          */
-        const Vector3D& getOrigin() const;
+        const Point3D& getOrigin() const;
 
         /**
          * Gets the direction vector of the ray.
@@ -46,7 +47,7 @@ namespace RayTracer {
          * @param t float The parameter along the ray.
          * @return The computed point as a Vector3D.
          */
-        Vector3D pointAt(float t) const;
+        Point3D pointAt(float t) const;
     };
 
 }

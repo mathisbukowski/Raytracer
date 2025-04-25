@@ -37,9 +37,9 @@ public:
 
     void render(const std::string& outputFile);
     Color traceRay(const Ray& ray, int depth = 0);
-    static Ray computeReflectedRay(const Vector3D& origin, const Vector3D& incident, const Vector3D& normal);
-    Color computeLighting(const Vector3D& point, const Vector3D& normal, const Vector3D& viewDir);
-    Color computeReflection(const Ray& ray, const Vector3D& point, const Vector3D& normal, int depth);
+    static Ray computeReflectedRay(const Point3D& origin, const Vector3D& incident, const Vector3D& normal);
+    Color computeLighting(const Point3D& point, const Vector3D& normal, const Vector3D& viewDir);
+    Color computeReflection(const Ray& ray, const Point3D& point, const Vector3D& normal, int depth);
 };
 
 }
