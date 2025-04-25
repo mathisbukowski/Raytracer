@@ -9,6 +9,7 @@
 #define POINTLIGHTFACTORY_HPP
 
 #include "../Lights/ILight.hpp"
+#include "../Lights/PointLight.hpp"
 #include "ILightFactory.hpp"
 #include <memory>
 
