@@ -37,7 +37,7 @@ void RayTracer::SceneParser::initializePrimitives()
             if (!primitives.exists(type))
                 continue;
             const libconfig::Setting& primitiveList = primitives[type.c_str()];
-            for (int i = 0; i < primitiveList.getLength(); ++i) {
+            for (int i = 0; i < primitiveList.getLength(); i++) {
                 const libconfig::Setting& setting = primitiveList[i];
                 auto factory = IPrimitiveFactory::getFactory(type);
                 auto primitive = factory->createPrimitive(setting);
@@ -67,3 +67,14 @@ RayTracer::Camera RayTracer::SceneParser::initializeCamera()
     });
     return {Vector3D(cameraConfig->px, cameraConfig->py, cameraConfig->pz), Vector3D(cameraConfig->rx, cameraConfig->ry, cameraConfig->rz), cameraConfig->fov, cameraConfig->width, cameraConfig->height};
 }
+
+void RayTracer::SceneParser::initializeLights()
+{
+    this->safeLookup([this] {
+        if (!_sceneRoot->exists("lights"))
+           throw SceneParserError("Light not found in config file");
+        const libconfig::Setting& lights = (_sceneRoot.operator*())["lights"];
+
+    });
+}
+
