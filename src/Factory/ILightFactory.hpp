@@ -8,7 +8,7 @@
 #ifndef ILIGHTFACTORY_HPP
 #define ILIGHTFACTORY_HPP
 
-#include "ILight.hpp"
+#include "../Lights/ILight.hpp"
 #include <memory>
 #include <libconfig.h++>
 
