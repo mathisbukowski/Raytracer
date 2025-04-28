@@ -46,6 +46,8 @@ namespace RayTracer {
          */
         Vector3D operator-(const Vector3D& other) const;
 
+        Vector3D operator-() const;
+
         /**
          * Multiplies the vector by a scalar.
          * @param scalar float The scalar value.
@@ -86,7 +88,7 @@ namespace RayTracer {
          */
         Vector3D normalized() const;
     };
-  
+
     Vector3D eulerRotation(const Vector3D& v, const Vector3D& rotation);
 
     /**

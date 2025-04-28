@@ -22,6 +22,10 @@ Vector3D Vector3D::operator-(const Vector3D& other) const {
     return Vector3D(x - other.x, y - other.y, z - other.z);
 }
 
+Vector3D Vector3D::operator-() const {
+    return Vector3D(-x, -y, -z);
+}
+
 Vector3D Vector3D::operator*(float scalar) const {
     return Vector3D(x * scalar, y * scalar, z * scalar);
 }
@@ -54,12 +58,11 @@ Vector3D Vector3D::normalized() const {
     return *this / len;
 }
 
-Vector3D euleurRotation(const Vector3D& v, const Vector3D& rotation) {
+Vector3D eulerRotation(const Vector3D& v, const Vector3D& rotation) {
     (void)v;
 
     float pitch = rotation.x * M_PI / 180.0f;
     float yaw   = rotation.y * M_PI / 180.0f;
-    float roll  = rotation.z * M_PI / 180.0f;
 
     float sinx = std::sin(pitch);
     float cosy = std::cos(yaw),   siny = std::sin(yaw);

@@ -10,7 +10,7 @@
 
 namespace RayTracer {
 
-Camera::Camera(const Vector3D& position, const Vector3D& rotation, float fov, int width, int height)
+Camera::Camera(const Point3D& position, const Vector3D& rotation, float fov, int width, int height)
     : _position(position), _rotation(rotation), _fov(fov), _width(width), _height(height)
 {
     _aspectRatio = static_cast<float>(width) / height;
