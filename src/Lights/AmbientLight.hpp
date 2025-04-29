@@ -65,6 +65,11 @@ namespace RayTracer {
          * @return True if the light can cast shadows, false otherwise.
          */
         bool canCastShadow() const override;
+        /**
+         * Gets the direction
+         * @return The direction of the Light
+         */
+        Vector3D getDirection() const override;
     private:
         float _intensity; ///< Intensity of the ambient light
         Vector3D _color; ///< Color of the ambient light
