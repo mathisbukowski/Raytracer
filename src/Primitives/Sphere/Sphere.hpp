@@ -10,6 +10,7 @@
 
 #include "../IPrimitive.hpp"
 #include "../../Core/Ray.hpp"
+#include "../../Materials/IMaterial.hpp"
 
 namespace RayTracer {
     /**
@@ -28,31 +29,57 @@ namespace RayTracer {
         Sphere(const Point3D &center, double radius, Color color);
 
         /**
-         * Checks if a ray intersects with the sphere.
-         * @param ray const Ray & The ray to check for intersection.
-         * @return true if the ray intersects with the sphere, false otherwise.
-         */
-        bool hits(const Ray &ray) const;
-
-        /**
          * Gets the center of the sphere.
          * @return A constant reference to the center of the sphere.
          */
-        const Point3D& getCenter() const { return _center; }
+        [[nodiscard]] const Point3D& getCenter() const;
         /**
          * Gets the radius of the sphere.
          * @return The radius of the sphere.
          */
-        double getRadius() const { return _radius; }
+        [[nodiscard]] double getRadius() const;
         /**
          * Gets the color of the sphere.
          * @return A constant reference to the color of the sphere.
          */
-        const Color& getColor() const { return _color; }
+        [[nodiscard]] const Color& getColor() const;
+
+        /**
+         * Checks if a ray intersects with the primitive.
+         * @param ray const Ray & The ray to test for intersection.
+         * @param t float & The distance to the intersection point.
+         * @param normal Vector3D & The normal vector at the intersection point.
+         * @return True if the ray intersects the primitive, false otherwise.
+         */
+        bool intersect(const Ray& ray, float& t, Vector3D& normal) const override;
+        /**
+         * Translates the primitive by a given vector.
+         * @param translation const Vector3D & The translation vector.
+         */
+        void translate(const Vector3D& translation) override;
+
+        /**
+         * Rotates the primitive by a given vector.
+         * @param rotation const Vector3D & The rotation vector.
+         */
+        void rotate(const Vector3D& rotation) override;
+
+        /**
+         * Gets the material of the primitive.
+         * @return A shared pointer to the material of the primitive.
+         */
+        std::shared_ptr<IMaterial> getMaterial() const override;
+
+        /**
+         * Sets the material of the primitive.
+         * @param material const std::shared_ptr\<IMaterial\> & The material to set.
+         */
+        void setMaterial(const std::shared_ptr<IMaterial>& material) override;
     private:
         Point3D _center; ///< The center of the sphere.
         double _radius; ///< The radius of the sphere.
         Color _color; ///< The color of the sphere.
+        Material _material; ///< The material of the sphere.
     };
 }
 
