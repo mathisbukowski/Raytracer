@@ -26,7 +26,7 @@ namespace RayTracer {
          * @param radius double The radius of the sphere.
          * @param color Color The color of the sphere.
          */
-        Sphere(const Point3D &center, double radius, Color color);
+        Sphere(const Point3D &center, double radius, Color color, const std::shared_ptr<IMaterial>& material = nullptr);
 
         /**
          * Gets the center of the sphere.
@@ -79,7 +79,7 @@ namespace RayTracer {
         Point3D _center; ///< The center of the sphere.
         double _radius; ///< The radius of the sphere.
         Color _color; ///< The color of the sphere.
-        Material _material; ///< The material of the sphere.
+        std::shared_ptr<IMaterial> _material; ///< The material of the sphere.
     };
 }
 
