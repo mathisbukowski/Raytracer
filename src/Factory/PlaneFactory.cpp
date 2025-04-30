@@ -7,8 +7,11 @@
 
 #include "PlaneFactory.hpp"
 
+#include "IMaterialFactory.hpp"
+
 std::shared_ptr<RayTracer::IPrimitive> RayTracer::PlaneFactory::createPrimitive(const libconfig::Setting& settings)
 {
+    std::shared_ptr<IMaterial> material = nullptr;
     std::string normal = settings.lookup("axis").c_str();
     double position = settings.lookup("position");
 
@@ -16,6 +19,11 @@ std::shared_ptr<RayTracer::IPrimitive> RayTracer::PlaneFactory::createPrimitive(
     int r = colorSetting.lookup("r");
     int g = colorSetting.lookup("g");
     int b = colorSetting.lookup("b");
-
-    return std::make_shared<Plane>(normal, position, Color(r, g, b));
+    std::shared_ptr<const libconfig::Setting> materialSetting = settings.exists("material") ? std::make_shared<libconfig::Setting>(settings.lookup("material")) : nullptr;
+    if (materialSetting != nullptr) {
+        std::string materialType = materialSetting->lookup("type");
+        auto factory = IMaterialFactory::getFactory(materialType);
+        material = factory->createMaterial(materialSetting.operator*());
+    }
+    return std::make_shared<Plane>(normal, position, Color(r, g, b), material);
 }
