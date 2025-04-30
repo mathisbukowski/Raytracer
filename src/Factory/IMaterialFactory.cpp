@@ -14,7 +14,7 @@
 std::shared_ptr<RayTracer::IMaterialFactory> RayTracer::IMaterialFactory::getFactory(const std::string& type)
 {
     static std::unordered_map<std::string, std::shared_ptr<IMaterialFactory>> factoryMap = {
-        {"flat_color", std::make_shared<FlatColorMaterialFactory>()}
+        {"flat", std::make_shared<FlatColorMaterialFactory>()}
     };
 
     auto it = factoryMap.find(type);
