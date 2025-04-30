@@ -12,7 +12,7 @@ RayTracer::Plane::Plane(const RayTracer::Point3D &point, const RayTracer::Vector
     _point = point;
     _normal = normal;
     _material = material;
-    _distance = _normal.dot(_point);
+    _distance = _normal.dot(_normal);
 }
 
 bool RayTracer::Plane::intersect(const RayTracer::Ray &ray, float &t, RayTracer::Vector3D &normal) const
