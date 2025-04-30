@@ -29,7 +29,7 @@ namespace RayTracer {
          * @param point const Point3D & The point on the plane.
          * @param normal const Vector3D & The normal vector of the plane.
          */
-        Plane(const Point3D &point, const Vector3D &normal);
+        Plane(const Point3D &point, const Vector3D &normal, const std::shared_ptr<IMaterial> &material = nullptr);
 
         /**
          * Checks if a ray intersects with the plane.

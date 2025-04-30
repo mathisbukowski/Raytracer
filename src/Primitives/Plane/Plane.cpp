@@ -7,11 +7,12 @@
 
 #include "Plane.hpp"
 
-RayTracer::Plane::Plane(const RayTracer::Point3D &point, const RayTracer::Vector3D &normal)
+RayTracer::Plane::Plane(const RayTracer::Point3D &point, const RayTracer::Vector3D &normal, const std::shared_ptr<RayTracer::IMaterial> &material)
 {
     _point = point;
     _normal = normal;
-    _material = nullptr;
+    _material = material;
+    _distance = _normal.dot(_point);
 }
 
 bool RayTracer::Plane::intersect(const RayTracer::Ray &ray, float &t, RayTracer::Vector3D &normal) const
