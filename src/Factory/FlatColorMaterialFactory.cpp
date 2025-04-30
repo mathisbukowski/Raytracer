@@ -13,9 +13,9 @@
     material = {
     type = "flat";
     color = { r = 255; g = 100; b = 50; };
-    transparency = 0.2;  # optionnel, sinon 0.0 par défaut
+    transparency = 0.2;
     };
- */
+*/
 std::shared_ptr<RayTracer::IMaterial> RayTracer::FlatColorMaterialFactory::createMaterial(const libconfig::Setting& setting)
 {
     const libconfig::Setting& colorSetting = setting.lookup("color");
