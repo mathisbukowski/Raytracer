@@ -13,12 +13,12 @@ std::shared_ptr<RayTracer::IPrimitive> RayTracer::SphereFactory::createPrimitive
     double x = settings.lookup("x");
     double y = settings.lookup("y");
     double z = settings.lookup("z");
-    double radius = settings.lookup("r");
+    double radius = settings.lookup("radius");
 
     const libconfig::Setting& colorSetting = settings.lookup("color");
     int r = colorSetting.lookup("r");
     int g = colorSetting.lookup("g");
     int b = colorSetting.lookup("b");
 
-    return std::make_shared<RayTracer::Sphere>(Vector3D(x, y, z), radius, Color(r, g, b));f
+    return std::make_shared<RayTracer::Sphere>(Vector3D(x, y, z), radius, Color(r, g, b));
 }
