@@ -7,18 +7,26 @@
 
 #include "SphereFactory.hpp"
 
+#include "IMaterialFactory.hpp"
+
 
 std::shared_ptr<RayTracer::IPrimitive> RayTracer::SphereFactory::createPrimitive(const libconfig::Setting& settings)
 {
+    std::shared_ptr<IMaterial> material = nullptr;
     double x = settings.lookup("x");
     double y = settings.lookup("y");
     double z = settings.lookup("z");
-    double radius = settings.lookup("r");
+    double radius = settings.lookup("radius");
 
     const libconfig::Setting& colorSetting = settings.lookup("color");
     int r = colorSetting.lookup("r");
     int g = colorSetting.lookup("g");
     int b = colorSetting.lookup("b");
-
-    return std::make_shared<RayTracer::Sphere>(Vector3D(x, y, z), radius, Color(r, g, b));f
+    std::shared_ptr<const libconfig::Setting> materialSetting = settings.exists("material") ? std::make_shared<libconfig::Setting>(settings.lookup("material")) : nullptr;
+    if (materialSetting != nullptr) {
+        std::string materialType = materialSetting->lookup("type");
+        auto factory = IMaterialFactory::getFactory(materialType);
+        material = factory->createMaterial(materialSetting.operator*());
+    }
+    return std::make_shared<RayTracer::Sphere>(Vector3D(x, y, z), radius, Color(r, g, b), material);
 }
