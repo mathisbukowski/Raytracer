@@ -16,6 +16,7 @@
 #include "../../Utils/Color.hpp"
 #include <memory>
 #include <cmath>
+#include <string>
 
 namespace RayTracer {
     /**
@@ -25,11 +26,22 @@ namespace RayTracer {
     class Plane : public IPrimitive {
     public:
         /**
+         * Constructs a Plane with a specified axis and position.
+         * @param axis std::string The axis perpendicular to the plane ("X", "Y", or "Z").
+         * @param position float The position of the plane along the axis.
+         * @param color const Color & The color of the plane.
+         * @param material const std::shared_ptr<IMaterial> & The material of the plane (optional).
+         */
+        Plane(const std::string &axis, float position, const Color &color, const std::shared_ptr<IMaterial> &material = nullptr);
+
+        /**
          * Constructs a Plane with a specified point and normal vector.
          * @param point const Point3D & The point on the plane.
          * @param normal const Vector3D & The normal vector of the plane.
+         * @param color const Color & The color of the plane.
+         * @param material const std::shared_ptr<IMaterial> & The material of the plane (optional).
          */
-        Plane(const Point3D &point, const Vector3D &normal, const std::shared_ptr<IMaterial> &material = nullptr);
+        Plane(const Point3D &point, const Vector3D &normal, const Color &color, const std::shared_ptr<IMaterial> &material = nullptr);
 
         /**
          * Checks if a ray intersects with the plane.
@@ -88,12 +100,26 @@ namespace RayTracer {
          */
         const Color &getColor() const;
 
+        /**
+         * Gets the axis of the plane.
+         * @return The axis of the plane.
+         */
+        const std::string &getAxis() const;
+
+        /**
+         * Gets the position of the plane along its axis.
+         * @return The position along the axis.
+         */
+        float getPosition() const;
+
     private:
         Point3D _point; ///< A point on the plane.
-        float _distance; ///< The distance from the origin to the plane.
         Vector3D _normal; ///< The normal vector of the plane.
-        std::shared_ptr<IMaterial> _material; ///< The material of the plane.
+        float _distance; ///< The distance from the origin to the plane.
+        std::string _axis; ///< The axis perpendicular to the plane ("X", "Y", or "Z").
+        float _position; ///< The position along the axis.
         Color _color; ///< The color of the plane.
+        std::shared_ptr<IMaterial> _material; ///< The material of the plane.
     };
 }
 
