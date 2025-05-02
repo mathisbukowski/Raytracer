@@ -8,7 +8,7 @@
 #include "SphereFactory.hpp"
 
 #include "IMaterialFactory.hpp"
-
+#include "Primitives/Sphere/Sphere.hpp"
 
 std::shared_ptr<RayTracer::IPrimitive> RayTracer::SphereFactory::createPrimitive(const libconfig::Setting& settings)
 {
@@ -28,5 +28,5 @@ std::shared_ptr<RayTracer::IPrimitive> RayTracer::SphereFactory::createPrimitive
         auto factory = IMaterialFactory::getFactory(materialType);
         material = factory->createMaterial(materialSetting.operator*());
     }
-    return std::make_shared<RayTracer::Sphere>(Vector3D(x, y, z), radius, Color(r, g, b), material);
+    return std::make_shared<Sphere>(Vector3D(x, y, z), radius, Color(r, g, b), material);
 }
