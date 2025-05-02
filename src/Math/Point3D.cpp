@@ -6,6 +6,7 @@
 */
 
 #include "Point3D.hpp"
+#include "Vector3D.hpp"
 
 namespace RayTracer {
 

@@ -8,7 +8,7 @@
 #include "AmbientLight.hpp"
 
 namespace RayTracer {
-    Color AmbientLight::calculateIllumination(const Point3D& point, const Vector3D& normal, const Vector3D& viewDirection) const
+    Color AmbientLight::calculateIllumination( [[maybe_unused]]const Point3D& point, [[maybe_unused]] const Vector3D& normal, [[maybe_unused]] const Vector3D& viewDirection) const
     {
         Vector3D colorVector = this->getColor() * this->getIntensity();
         return Color(colorVector.x, colorVector.y, colorVector.z);
@@ -31,6 +31,7 @@ namespace RayTracer {
 
     Vector3D AmbientLight::getLightDirection(const Point3D& point) const
     {
+        (void)point;
         return Vector3D(0, 0, 0);
     }
 

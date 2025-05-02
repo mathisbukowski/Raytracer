@@ -60,7 +60,7 @@ namespace RayTracer {
          * @note This function will return the root of the scene
          * @return std::shared_ptr<libconfig::Setting>
          */
-        [[nodiscard]] std::shared_ptr<libconfig::Setting> getSceneRoot() const;
+        [[nodiscard]] libconfig::Setting& getSceneRoot() const;
 
         /**
          * Safe lookup function
@@ -110,7 +110,7 @@ namespace RayTracer {
 
     private:
         std::shared_ptr<Scene> _scene = nullptr; ///< Scene of the raytracer
-        std::shared_ptr<libconfig::Setting> _sceneRoot = nullptr; ///< Scene Root with the libconfig++
+        std::unique_ptr<libconfig::Config> _config = nullptr; ///< Scene Config with the libconfig++
     };
 };
 

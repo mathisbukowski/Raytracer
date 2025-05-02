@@ -14,7 +14,7 @@
 namespace RayTracer {
 
 Engine::Engine(int width, int height)
-    : _camera(Vector3D(0, 0, 0), Vector3D(0, 0, 0), 60.0f, width, height),
+    : _camera(Camera(Point3D(0, 0, 0), Vector3D(0, 0, 0), 60.0f, width, height)),
       _width(width),
       _height(height)
 {}

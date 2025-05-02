@@ -30,29 +30,6 @@ RayTracer::Plane::Plane(const std::string &axis, float position, const Color &co
     _distance = _normal.dot(_point);
 }
 
-RayTracer::Plane::Plane(const RayTracer::Point3D &point, const RayTracer::Vector3D &normal, const Color &color, const std::shared_ptr<RayTracer::IMaterial> &material)
-{
-    _point = point;
-    _normal = normal;
-    _color = color;
-    _material = material;
-    _normal.normalized();
-    _distance = _normal.dot(_point);
-    float absX = std::abs(_normal.x);
-    float absY = std::abs(_normal.y);
-    float absZ = std::abs(_normal.z);
-    if (absX >= absY && absX >= absZ) {
-        _axis = "X";
-        _position = point.x;
-    } else if (absY >= absX && absY >= absZ) {
-        _axis = "Y";
-        _position = point.y;
-    } else {
-        _axis = "Z";
-        _position = point.z;
-    }
-}
-
 bool RayTracer::Plane::intersect(const RayTracer::Ray &ray, float &t, RayTracer::Vector3D &normal) const
 {
     float denominator = _normal.dot(ray.getDirection());
@@ -103,19 +80,22 @@ void RayTracer::Plane::rotate(const RayTracer::Vector3D &rotation)
         _normal.x = x;
         _normal.y = y;
     }
-    _normal.normalized();
+    Vector3D normalized = _normal.normalized();
     _distance = _normal.dot(_point);
-    float absX = std::abs(_normal.x);
-    float absY = std::abs(_normal.y);
-    float absZ = std::abs(_normal.z);
+    float absX = std::abs(normalized.x);
+    float absY = std::abs(normalized.y);
+    float absZ = std::abs(normalized.z);
     if (absX >= absY && absX >= absZ) {
-        _axis = "X";
+        std::string newXAxis = "X";
+        _axis = newXAxis;
         _position = _point.x;
     } else if (absY >= absX && absY >= absZ) {
-        _axis = "Y";
+        std::string newYAxis = "Y";
+        _axis = newYAxis;
         _position = _point.y;
     } else {
-        _axis = "Z";
+        std::string newXAxis = "Z";
+        _axis = newXAxis;
         _position = _point.z;
     }
 }
