@@ -71,6 +71,11 @@ namespace RayTracer {
          */
         float dot(const Vector3D& other) const;
 
+        /**
+         * Computes the dot product of the vector with a Point3D.
+         * @param other const Point3D & The point to compute the dot product with.
+         * @return The dot product as a float.
+         */
         float dot(const Point3D& other) const;
 
         /**
