@@ -9,7 +9,7 @@
 
 
 namespace RayTracer {
-    Color PointLight::calculateIllumination(const Point3D& point, const Vector3D& normal, const Vector3D& viewDirection) const
+    Color PointLight::calculateIllumination(const Point3D& point, const Vector3D& normal, [[maybe_unused]] const Vector3D& viewDirection) const
     {
         Vector3D lightDirection = getLightDirection(point);
         float diffuseFactor =  std::max(0.0f, normal.dot(lightDirection));
@@ -48,4 +48,10 @@ namespace RayTracer {
     {
         return true;
     }
+
+    Vector3D PointLight::getDirection() const
+    {
+        return Vector3D(0, 0, 0);
+    }
+
 }

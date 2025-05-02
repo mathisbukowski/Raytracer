@@ -53,13 +53,13 @@ namespace RayTracer {
          * @param viewDirection The direction from the point to the viewer.
          * @return The color of the light at the given point.
          */
-        Color calculateIllumination(const Point3D& point, const Vector3D& normal, const Vector3D& viewDirection) const override;
+        Color calculateIllumination([[maybe_unused]] const Point3D& point, [[maybe_unused]] const Vector3D& normal, [[maybe_unused]] const Vector3D& viewDirection) const override;
         /**
          * Gets the light direction at a given point.
          * @param point The point in space where the light direction is calculated.
          * @return The direction of the light at the given point (always returns (0, 0, 0) for ambient light).
          */
-        Vector3D getLightDirection(const Point3D& point) const override;
+        Vector3D getLightDirection([[maybe_unused]] const Point3D& point) const override;
         /**
          * Checks if the light can cast shadows.
          * @return True if the light can cast shadows, false otherwise.
