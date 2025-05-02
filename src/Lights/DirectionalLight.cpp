@@ -9,7 +9,7 @@
 
 
 namespace RayTracer {
-    Color DirectionalLight::calculateIllumination(const Point3D& point, const Vector3D& normal, const Vector3D& viewDirection) const
+    Color DirectionalLight::calculateIllumination([[maybe_unused]] const Point3D& point, const Vector3D& normal, [[maybe_unused]] const Vector3D& viewDirection) const
     {
         float diffuseFactor = normal.dot(-this->getDirection());
 
@@ -37,7 +37,7 @@ namespace RayTracer {
         return _intensity;
     }
 
-    Vector3D DirectionalLight::getLightDirection(const Point3D& point) const
+    Vector3D DirectionalLight::getLightDirection([[maybe_unused]] const Point3D& point) const
     {
         return  -(this->getDirection());
     }

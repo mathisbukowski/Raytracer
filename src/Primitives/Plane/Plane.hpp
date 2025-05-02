@@ -33,16 +33,6 @@ namespace RayTracer {
          * @param material const std::shared_ptr<IMaterial> & The material of the plane (optional).
          */
         Plane(const std::string &axis, float position, const Color &color, const std::shared_ptr<IMaterial> &material = nullptr);
-
-        /**
-         * Constructs a Plane with a specified point and normal vector.
-         * @param point const Point3D & The point on the plane.
-         * @param normal const Vector3D & The normal vector of the plane.
-         * @param color const Color & The color of the plane.
-         * @param material const std::shared_ptr<IMaterial> & The material of the plane (optional).
-         */
-        Plane(const Point3D &point, const Vector3D &normal, const Color &color, const std::shared_ptr<IMaterial> &material = nullptr);
-
         /**
          * Checks if a ray intersects with the plane.
          * @param ray const Ray & The ray to test for intersection.

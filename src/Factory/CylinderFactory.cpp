@@ -8,13 +8,14 @@
 #include "CylinderFactory.hpp"
 
 #include "IMaterialFactory.hpp"
-
+#include "Primitives/Cylinder/Cylinder.hpp"
 
 std::shared_ptr<RayTracer::IPrimitive> RayTracer::CylinderFactory::createPrimitive(const libconfig::Setting& settings)
 {
-    double x = settings.lookup("x");
-    double y = settings.lookup("y");
-    double z = settings.lookup("z");
+    const libconfig::Setting& baseSetting = settings.lookup("base");
+    double x = baseSetting.lookup("x");
+    double y = baseSetting.lookup("y");
+    double z = baseSetting.lookup("z");
 
     const libconfig::Setting& axisSetting = settings.lookup("axis");
     double ax = axisSetting.lookup("x");
@@ -28,13 +29,16 @@ std::shared_ptr<RayTracer::IPrimitive> RayTracer::CylinderFactory::createPrimiti
     int g = colorSetting.lookup("g");
     int b = colorSetting.lookup("b");
 
+    float height = settings.lookup("height");
+
     std::shared_ptr<IMaterial> material = nullptr;
-    std::shared_ptr<const libconfig::Setting> materialSetting = settings.exists("material") ? std::make_shared<libconfig::Setting>(settings.lookup("material")) : nullptr;
-    if (materialSetting != nullptr) {
-        std::string materialType = materialSetting->lookup("type");
+    if (settings.exists("material")) {
+        const libconfig::Setting& materialSetting = settings.lookup("material");
+        std::string materialType = materialSetting.lookup("type");
         auto factory = IMaterialFactory::getFactory(materialType);
-        material = factory->createMaterial(materialSetting.operator*());
+        material = factory->createMaterial(materialSetting);
     }
 
-    return std::make_shared<Cylinder>(Vector3D(x, y, z), Vector3D(ax, ay, az), radius, Color(r, g, b), material);
+
+    return std::make_shared<Cylinder>(Point3D(x, y, z), Vector3D(ax, ay, az), radius, height, Color(r, g, b), material);
 }
