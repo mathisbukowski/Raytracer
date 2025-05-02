@@ -8,6 +8,7 @@
 #include "PlaneFactory.hpp"
 
 #include "IMaterialFactory.hpp"
+#include "Primitives/Plane/Plane.hpp"
 
 std::shared_ptr<RayTracer::IPrimitive> RayTracer::PlaneFactory::createPrimitive(const libconfig::Setting& settings)
 {
