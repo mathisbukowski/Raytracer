@@ -8,20 +8,22 @@
 #include "ConeFactory.hpp"
 
 #include "IMaterialFactory.hpp"
-
+#include "Primitives/Cone/Cone.hpp"
 
 std::shared_ptr<RayTracer::IPrimitive> RayTracer::ConeFactory::createPrimitive(const libconfig::Setting& settings)
 {
-    double x = settings.lookup("x");
-    double y = settings.lookup("y");
-    double z = settings.lookup("z");
+    const libconfig::Setting& apexSetting = settings.lookup("apex");
+    double apexX = apexSetting.lookup("x");
+    double apexY = apexSetting.lookup("y");
+    double apexZ = apexSetting.lookup("z");
 
-    const libconfig::Setting& axisSetting = settings.lookup("axis");
-    double ax = axisSetting.lookup("x");
-    double ay = axisSetting.lookup("y");
-    double az = axisSetting.lookup("z");
+    const libconfig::Setting& axisSetting =  settings.lookup("axis");
+    double axisX = axisSetting.lookup("x");
+    double axisY = axisSetting.lookup("y");
+    double axisZ = axisSetting.lookup("z");
 
-    double angle = settings.lookup("angle");
+    double baseRadius = settings.lookup("baseRadius");
+    double height = settings.lookup("height");
 
     const libconfig::Setting& colorSetting = settings.lookup("color");
     int r = colorSetting.lookup("r");
@@ -37,5 +39,5 @@ std::shared_ptr<RayTracer::IPrimitive> RayTracer::ConeFactory::createPrimitive(c
     }
 
 
-    return std::make_shared<Cone>(Vector3D(x, y, z), Vector3D(ax, ay, az), angle, Color(r, g, b), material);
+    return std::make_shared<Cone>(Point3D(apexX, apexY, apexZ), Vector3D(axisX, axisY, axisZ), baseRadius, height, Color(r, g, b), material);
 }

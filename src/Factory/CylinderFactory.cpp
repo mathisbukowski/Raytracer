@@ -39,5 +39,5 @@ std::shared_ptr<RayTracer::IPrimitive> RayTracer::CylinderFactory::createPrimiti
         material = factory->createMaterial(materialSetting.operator*());
     }
 
-    return std::make_shared<Cylinder>(Vector3D(x, y, z), Vector3D(ax, ay, az), radius, height, Color(r, g, b), material);
+    return std::make_shared<Cylinder>(Point3D(x, y, z), Vector3D(ax, ay, az), radius, height, Color(r, g, b), material);
 }
