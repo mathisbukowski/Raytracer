@@ -8,9 +8,9 @@
 #ifndef POINT3D_HPP_
 #define POINT3D_HPP_
 
-#include "Vector3D.hpp"
 
 namespace RayTracer {
+    class Vector3D;
 
 class Point3D {
 public:

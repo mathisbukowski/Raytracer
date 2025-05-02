@@ -31,11 +31,11 @@ std::shared_ptr<RayTracer::IPrimitive> RayTracer::ConeFactory::createPrimitive(c
     int b = colorSetting.lookup("b");
 
     std::shared_ptr<IMaterial> material = nullptr;
-    std::shared_ptr<const libconfig::Setting> materialSetting = settings.exists("material") ? std::make_shared<libconfig::Setting>(settings.lookup("material")) : nullptr;
-    if (materialSetting != nullptr) {
-        std::string materialType = materialSetting->lookup("type");
+    if (settings.exists("material")) {
+        const libconfig::Setting& materialSetting = settings.lookup("material");
+        std::string materialType = materialSetting.lookup("type");
         auto factory = IMaterialFactory::getFactory(materialType);
-        material = factory->createMaterial(materialSetting.operator*());
+        material = factory->createMaterial(materialSetting);
     }
 
 
