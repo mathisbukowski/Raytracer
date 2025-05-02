@@ -38,6 +38,12 @@ float Vector3D::dot(const Vector3D& other) const {
     return x * other.x + y * other.y + z * other.z;
 }
 
+float Vector3D::dot(const RayTracer::Point3D &other) const
+{
+    return x * other.x + y * other.y + z * other.z;
+}
+
+
 Vector3D Vector3D::cross(const Vector3D& other) const {
     return Vector3D(
         y * other.z - z * other.y,

@@ -8,6 +8,8 @@
 #ifndef VECTOR3D_HPP_
 #define VECTOR3D_HPP_
 
+#include "Point3D.hpp"
+
 namespace RayTracer {
 
     /**
@@ -68,6 +70,8 @@ namespace RayTracer {
          * @return The dot product as a float.
          */
         float dot(const Vector3D& other) const;
+
+        float dot(const Point3D& other) const;
 
         /**
          * Computes the cross product of two vectors.
