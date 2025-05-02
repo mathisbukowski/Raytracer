@@ -17,5 +17,5 @@ file(GLOB_RECURSE CORE_INC "src/*.hpp")
 
 add_executable(${PROJECT_NAME} ${CORE_SRC} ${CORE_INC})
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/ ${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -lconfig++)
+target_link_libraries(${PROJECT_NAME} PRIVATE config++)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror)
