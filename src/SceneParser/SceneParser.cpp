@@ -38,6 +38,7 @@ void RayTracer::SceneParser::initializePrimitives()
             const libconfig::Setting& primitiveList = primitives[type.c_str()];
             for (int i = 0; i < primitiveList.getLength(); i++) {
                 const libconfig::Setting& setting = primitiveList[i];
+                std::cout << "[DEBUG] Parsing primitive #" << i << " of type " << type << "\n";
                 auto factory = IPrimitiveFactory::getFactory(type);
                 auto primitive = factory->createPrimitive(setting);
                 _scene->addPrimitive(primitive);
@@ -64,8 +65,8 @@ RayTracer::Camera RayTracer::SceneParser::initializeCamera()
         camera["position"].lookupValue("y", cameraConfig->py);
         camera["position"].lookupValue("z", cameraConfig->pz);
     });
-    return {Vector3D(cameraConfig->px, cameraConfig->py, cameraConfig->pz), 
-        Vector3D(cameraConfig->rx, cameraConfig->ry, cameraConfig->rz), 
+    return {Vector3D(cameraConfig->px, cameraConfig->py, cameraConfig->pz),
+        Vector3D(cameraConfig->rx, cameraConfig->ry, cameraConfig->rz),
         cameraConfig->fov, cameraConfig->width, cameraConfig->height};
 }
 
@@ -85,4 +86,3 @@ void RayTracer::SceneParser::initializeLights()
         }
     });
 }
-

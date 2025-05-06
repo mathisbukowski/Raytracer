@@ -23,14 +23,8 @@ namespace RayTracer {
          * @param intensity The intensity of the light (default is 0.6).
          * @param color The color of the light (default is white).
          */
-        DirectionalLight(
-        const Vector3D& direction = Vector3D(0, -1, 0),
-        float intensity = 0.6f,
-        const Vector3D& color = Vector3D(1.0f, 1.0f, 1.0f))
-            : _direction(direction), _intensity(intensity), _color(color)
-        {
-            _direction = direction.normalized();
-        }
+         DirectionalLight(const Vector3D& direction, float intensity, const Color& color);
+
         /**
          * Gets the position of the directional light.
          * @return The position of the directional light (always returns (0, 0, 0) for directional light).
@@ -45,7 +39,7 @@ namespace RayTracer {
          * Gets the color of the directional light.
          * @return The color of the directional light.
          */
-        Vector3D getColor() const override;
+        Color getColor() const override;
         /**
          * Checks if the light is directional.
          * @return True if the light is directional, false otherwise.
@@ -78,7 +72,7 @@ namespace RayTracer {
     private:
         Vector3D _direction; ///< Direction of the light
         float _intensity; ///< Intensity of the light
-        Vector3D _color; ///< Color of the light
+        Color _color; ///< Color of the light
     };
 }
 

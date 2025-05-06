@@ -23,9 +23,8 @@ namespace RayTracer {
          * @param intensity The intensity of the ambient light (default is 0.4).
          * @param color The color of the ambient light (default is white).
          */
-        explicit AmbientLight(float intensity = 0.4f, const Vector3D& color = Vector3D(1.0f, 1.0f, 1.0f))
-            : _intensity(intensity), _color(color) {}
-        
+        AmbientLight(float intensity, const Color& color);
+
         /**
          * Gets the position of the ambient light.
          * @return The position of the ambient light (always returns (0, 0, 0) for ambient light).
@@ -40,7 +39,7 @@ namespace RayTracer {
          * Gets the color of the ambient light.
          * @return The color of the ambient light.
          */
-        Vector3D getColor() const override;
+        Color getColor() const override;
         /**
          * Checks if the light is ambient.
          * @return True if the light is ambient, false otherwise.
@@ -72,7 +71,7 @@ namespace RayTracer {
         Vector3D getDirection() const override;
     private:
         float _intensity; ///< Intensity of the ambient light
-        Vector3D _color; ///< Color of the ambient light
+        Color _color; ///< Color of the ambient light
     };
 }
 
