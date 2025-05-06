@@ -73,9 +73,16 @@ Color Engine::traceRay(const Ray& ray, int depth) {
     if (!_scene.findNearestIntersection(ray, closest, t, normal))
         return _scene.getBackgroundColor();
 
-    auto material = closest->getMaterial();
-    if (!material)
+    if (!closest) {
+        std::cerr << "[ERROR] Closest primitive is nullptr\n";
         return _scene.getBackgroundColor();
+    }
+
+    auto material = closest->getMaterial();
+    if (!material) {
+        std::cerr << "[ERROR] Material is nullptr\n";
+        return _scene.getBackgroundColor();
+    }
 
     Point3D intersection = ray.pointAt(t);
     Vector3D viewDir = -ray.getDirection();

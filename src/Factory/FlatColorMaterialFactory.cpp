@@ -19,13 +19,16 @@
 std::shared_ptr<RayTracer::IMaterial> RayTracer::FlatColorMaterialFactory::createMaterial(const libconfig::Setting& setting)
 {
     const libconfig::Setting& colorSetting = setting.lookup("color");
-    int r = colorSetting.lookup("r");
-    int g = colorSetting.lookup("g");
-    int b = colorSetting.lookup("b");
+
+    float r = colorSetting.lookup("r");
+    float g = colorSetting.lookup("g");
+    float b = colorSetting.lookup("b");
 
     float transparency = 0.0f;
-    if (colorSetting.exists("transparency"))
-        transparency = colorSetting.lookup("transparency");
+    setting.lookupValue("transparency", transparency);
 
-    return std::make_shared<FlatColorMaterial>(Color(r, g, b), transparency);
+    return std::make_shared<FlatColorMaterial>(
+        Color(static_cast<float>(r), static_cast<float>(g), static_cast<float>(b)),
+        transparency
+    );
 }

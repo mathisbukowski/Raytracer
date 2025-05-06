@@ -33,6 +33,9 @@ public:
     Camera(const Point3D& position, const Vector3D& rotation, float fov, int width, int height);
 
     Ray generateRay(int x, int y) const;
+
+    int getWidth() const { return _width; }
+    int getHeight() const { return _height; }
 };
 
 }

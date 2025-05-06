@@ -44,7 +44,6 @@ float Vector3D::dot(const RayTracer::Point3D &other) const
     return x * other.x + y * other.y + z * other.z;
 }
 
-
 Vector3D Vector3D::cross(const Vector3D& other) const {
     return Vector3D(
         y * other.z - z * other.y,
@@ -72,7 +71,7 @@ Vector3D eulerRotation(const Vector3D& v, const Vector3D& rotation) {
     float yaw   = rotation.y * M_PI / 180.0f;
 
     float sinx = std::sin(pitch);
-    float cosy = std::cos(yaw),   siny = std::sin(yaw);
+    float cosy = std::cos(yaw), siny = std::sin(yaw);
 
     Vector3D forward;
     forward.x = cosy * std::cos(pitch);
