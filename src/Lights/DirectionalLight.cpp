@@ -46,12 +46,4 @@ namespace RayTracer {
     {
         return Vector3D(0, 0, 0);
     }
-
-    bool DirectionalLight::isDirectional() const
-    {
-        return true;
-    }
-
-
-
 }

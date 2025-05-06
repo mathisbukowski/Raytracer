@@ -52,11 +52,6 @@ namespace RayTracer {
          */
         Vector3D getDirection() const override;
         /**
-         * Checks if the light is ambient.
-         * @return True if the light is ambient, false otherwise.
-         */
-        bool isDirectional() const override;
-        /**
          * Calculates the illumination at a given point.
          * @param point The point in space where the illumination is calculated.
          * @param normal The normal vector at the point.

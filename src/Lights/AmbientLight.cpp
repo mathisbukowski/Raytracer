@@ -40,11 +40,6 @@ namespace RayTracer {
         return Vector3D(0, 0, 0);
     }
 
-    bool AmbientLight::isAmbient() const
-    {
-        return true;
-    }
-
     Vector3D AmbientLight::getDirection() const
     {
         return Vector3D(0, 0, 0);

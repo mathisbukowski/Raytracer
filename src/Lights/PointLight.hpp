@@ -44,11 +44,6 @@ namespace RayTracer {
          */
         Vector3D getColor() const override;
         /**
-         * Checks if the light is a point light.
-         * @return True if the light is a point light, false otherwise.
-         */
-        bool isPoint() const override;
-        /**
          * Calculates the illumination at a given point.
          * @param point The point in space where the illumination is calculated.
          * @param normal The normal vector at the point.

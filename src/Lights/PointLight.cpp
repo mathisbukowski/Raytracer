@@ -44,11 +44,6 @@ namespace RayTracer {
         return _position;
     }
 
-    bool PointLight::isPoint() const
-    {
-        return true;
-    }
-
     Vector3D PointLight::getDirection() const
     {
         return Vector3D(0, 0, 0);
