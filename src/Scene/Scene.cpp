@@ -7,6 +7,8 @@
 
 #include "Scene.hpp"
 
+#include <limits>
+
 namespace RayTracer {
 
     Scene::Scene()
