@@ -6,6 +6,7 @@
 */
 
 #include "Camera.hpp"
+#include <iostream>
 #include <cmath>
 
 namespace RayTracer {
@@ -17,7 +18,7 @@ Camera::Camera(const Point3D& position, const Vector3D& rotation, float fov, int
     _viewportHeight = 2.0f * std::tan((_fov * M_PI / 180.0f) / 2.0f);
     _viewportWidth = _aspectRatio * _viewportHeight;
 
-    _forward = eulerRotation(Vector3D(0, 0, 1), _rotation);
+    _forward = Vector3D(0, 0, -1);
     Vector3D up = Vector3D(0, 1, 0);
 
     _horizontal = _forward.cross(up).normalized() * _viewportWidth;
@@ -30,7 +31,7 @@ Ray Camera::generateRay(int x, int y) const {
     float v = static_cast<float>(y) / (_height - 1);
 
     Vector3D direction = (_lowerLeftCorner + u * _horizontal + v * _vertical) - _position;
-    return Ray(_position, direction);
+    return Ray(_position, direction.normalized());
 }
 
 }

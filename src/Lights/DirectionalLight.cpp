@@ -9,12 +9,12 @@
 
 
 namespace RayTracer {
-    Color DirectionalLight::calculateIllumination([[maybe_unused]] const Point3D& point, const Vector3D& normal, [[maybe_unused]] const Vector3D& viewDirection) const
-    {
-        float diffuseFactor = normal.dot(-this->getDirection());
+    DirectionalLight::DirectionalLight(const Vector3D& direction, float intensity, const Color& color)
+    : _direction(direction.normalized()), _intensity(intensity), _color(color) {}
 
-        Vector3D colorVector = this->getColor() * this->getIntensity() * diffuseFactor;
-        return Color(colorVector.x, colorVector.y, colorVector.z);
+    Color DirectionalLight::calculateIllumination(const Point3D&, const Vector3D& normal, const Vector3D&) const {
+        float diffuseFactor = normal.dot(-_direction);
+        return _color * _intensity * std::max(0.0f, diffuseFactor);
     }
 
     bool DirectionalLight::canCastShadow() const
@@ -22,7 +22,7 @@ namespace RayTracer {
         return true;
     }
 
-    Vector3D DirectionalLight::getColor() const
+    Color DirectionalLight::getColor() const
     {
         return _color;
     }

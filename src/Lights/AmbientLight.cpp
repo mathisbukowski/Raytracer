@@ -8,10 +8,16 @@
 #include "AmbientLight.hpp"
 
 namespace RayTracer {
-    Color AmbientLight::calculateIllumination( [[maybe_unused]]const Point3D& point, [[maybe_unused]] const Vector3D& normal, [[maybe_unused]] const Vector3D& viewDirection) const
+
+    AmbientLight::AmbientLight(float intensity, const Color& color)
+        : _intensity(intensity), _color(color) {}
+
+    Color AmbientLight::calculateIllumination(
+        [[maybe_unused]] const Point3D& point,
+        [[maybe_unused]] const Vector3D& normal,
+        [[maybe_unused]] const Vector3D& viewDirection) const
     {
-        Vector3D colorVector = this->getColor() * this->getIntensity();
-        return Color(colorVector.x, colorVector.y, colorVector.z);
+        return _color * _intensity;
     }
 
     bool AmbientLight::canCastShadow() const
@@ -19,7 +25,7 @@ namespace RayTracer {
         return false;
     }
 
-    Vector3D AmbientLight::getColor() const
+    Color AmbientLight::getColor() const
     {
         return _color;
     }

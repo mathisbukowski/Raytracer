@@ -29,7 +29,7 @@ bool RayTracer::Sphere::intersect(const RayTracer::Ray &ray, float &t, RayTracer
     else
         return false;
     Point3D intersectionPoint = ray.getOrigin() + ray.getDirection() * t;
-    normal = (intersectionPoint - _center);
+    normal = (intersectionPoint - _center).normalized();
     return true;
 }
 

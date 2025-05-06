@@ -17,15 +17,23 @@
         refractiveIndex = 1.5;
     };
  */
-std::shared_ptr<RayTracer::IMaterial> RayTracer::TransparencyMaterialFactory::createMaterial(const libconfig::Setting& setting)
-{
-    const libconfig::Setting& colorSetting = setting.lookup("color");
-    int r = colorSetting.lookup("r");
-    int g = colorSetting.lookup("g");
-    int b = colorSetting.lookup("b");
+ std::shared_ptr<RayTracer::IMaterial> RayTracer::TransparencyMaterialFactory::createMaterial(const libconfig::Setting& setting)
+ {
+     const libconfig::Setting& colorSetting = setting.lookup("color");
 
-    float transparency = setting.lookup("transparency");
-    float refractiveIndex = setting.lookup("refractiveIndex");
+     double r = colorSetting.lookup("r");
+     double g = colorSetting.lookup("g");
+     double b = colorSetting.lookup("b");
 
-    return std::make_shared<TransparencyMaterial>(Color(r, g, b), transparency, refractiveIndex);
-}
+     float transparency = 0.0f;
+     float refractiveIndex = 1.0f;
+
+     setting.lookupValue("transparency", transparency);
+     setting.lookupValue("refractiveIndex", refractiveIndex);
+
+     return std::make_shared<TransparencyMaterial>(
+         Color(static_cast<float>(r), static_cast<float>(g), static_cast<float>(b)),
+         transparency,
+         refractiveIndex
+     );
+ }

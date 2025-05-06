@@ -60,7 +60,7 @@ namespace RayTracer {
          * Gets the color of the light source.
          * @return The color vector of the light source.
          */
-        virtual Vector3D getColor() const = 0;
+        virtual Color getColor() const = 0;
         /**
          * Checks if the light source is a spotlight.
          * @return True if the light is a spotlight, false otherwise.

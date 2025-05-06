@@ -24,10 +24,8 @@ namespace RayTracer {
          * @param intensity The intensity of the light (default is 0.8).
          * @param color The color of the light (default is white).
          */
-        PointLight(const Vector3D& position = Vector3D(0, 0, 0),
-                   float intensity = 0.8f,
-                   const Vector3D& color = Vector3D(1.0f, 1.0f, 1.0f))
-            : _position(position), _intensity(intensity), _color(color) {}
+         PointLight(const Vector3D& position, float intensity, const Color& color);
+
         /**
          * Gets the position of the point light.
          * @return The position of the point light.
@@ -42,7 +40,7 @@ namespace RayTracer {
          * Gets the color of the point light.
          * @return The color of the point light.
          */
-        Vector3D getColor() const override;
+        Color getColor() const override;
         /**
          * Calculates the illumination at a given point.
          * @param point The point in space where the illumination is calculated.
@@ -69,7 +67,7 @@ namespace RayTracer {
     private:
         Vector3D _position; ///< Position of the point light
         float _intensity; ///< Intensity of the point light
-        Vector3D _color; ///< Color of the point light
+        Color _color; ///< Color of the point light
     };
 }
 

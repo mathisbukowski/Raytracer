@@ -9,13 +9,13 @@
 
 
 namespace RayTracer {
-    Color PointLight::calculateIllumination(const Point3D& point, const Vector3D& normal, [[maybe_unused]] const Vector3D& viewDirection) const
-    {
-        Vector3D lightDirection = getLightDirection(point);
-        float diffuseFactor =  std::max(0.0f, normal.dot(lightDirection));
+    PointLight::PointLight(const Vector3D& position, float intensity, const Color& color)
+    : _position(position), _intensity(intensity), _color(color) {}
 
-        Vector3D colorVector = this->getColor() * this->getIntensity() * diffuseFactor;
-        return Color(colorVector.x, colorVector.y, colorVector.z);
+    Color PointLight::calculateIllumination(const Point3D& point, const Vector3D& normal, const Vector3D&) const {
+        Vector3D lightDir = getLightDirection(point);
+        float diffuseFactor = std::max(0.0f, normal.dot(lightDir));
+        return _color * _intensity * diffuseFactor;
     }
 
     bool PointLight::canCastShadow() const
@@ -23,7 +23,7 @@ namespace RayTracer {
         return true;
     }
 
-    Vector3D PointLight::getColor() const
+    Color PointLight::getColor() const
     {
         return _color;
     }

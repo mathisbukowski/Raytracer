@@ -7,55 +7,68 @@
 
 #include "Scene.hpp"
 
+#include <limits>
+
 namespace RayTracer {
+
+    Scene::Scene()
+        : _backgroundColor(0, 0, 0)
+    {}
+
     void Scene::addLight(const std::shared_ptr<ILight>& light)
     {
-        (void)light;
-        return;
+        _lights.push_back(light);
     }
 
     void Scene::addPrimitive(const std::shared_ptr<IPrimitive>& primitive)
     {
-        (void)primitive;
-        return;
+        _primitives.push_back(primitive);
     }
 
     bool Scene::findNearestIntersection(const Ray& ray, std::shared_ptr<IPrimitive>& hitPrimitive, float& t, Vector3D& normal) const
     {
-        (void)ray;
-        (void)hitPrimitive;
-        (void)t;
-        (void)normal;
-        return true;
+        bool found = false;
+        float closestT = std::numeric_limits<float>::max();
+        Vector3D closestNormal;
+
+        for (const auto& primitive : _primitives) {
+            float localT;
+            Vector3D localNormal;
+            if (primitive->intersect(ray, localT, localNormal)) {
+                if (localT < closestT) {
+                    closestT = localT;
+                    closestNormal = localNormal;
+                    hitPrimitive = primitive;
+                    found = true;
+                }
+            }
+        }
+
+        if (found) {
+            t = closestT;
+            normal = closestNormal;
+        }
+
+        return found;
     }
 
     const Color& Scene::getBackgroundColor() const
     {
-        static const Color dummyColor(0, 0, 0);  // Valeur statique pour éviter le return-local-addr
-        return dummyColor;
+        return _backgroundColor;
     }
 
     const std::vector<std::shared_ptr<ILight>>& Scene::getLights() const
     {
-        static const std::vector<std::shared_ptr<ILight>> dummyLights;
-        return dummyLights;
+        return _lights;
     }
 
     const std::vector<std::shared_ptr<IPrimitive>>& Scene::getPrimitives() const
     {
-        static const std::vector<std::shared_ptr<IPrimitive>> dummyPrimitives;
-        return dummyPrimitives;
+        return _primitives;
     }
 
     void Scene::setBackgroundColor(const Color& color)
     {
-        (void)color;  // Ignore l'argument
+        _backgroundColor = color;
     }
-    Scene::Scene()
-    {
-        _backgroundColor = Color(0, 0, 0);
-        _lights = std::vector<std::shared_ptr<ILight>>();
-        _primitives = std::vector<std::shared_ptr<IPrimitive>>();
-    }
-
 }
