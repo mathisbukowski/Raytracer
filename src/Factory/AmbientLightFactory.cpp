@@ -14,6 +14,7 @@ std::shared_ptr<RayTracer::ILight> RayTracer::AmbientLightFactory::createLight(c
 {
     float intensity = 0.0f;
     float r = 1.0f, g = 1.0f, b = 1.0f;
+    bool canCastShadows = false;
 
     setting.lookupValue("intensity", intensity);
 
@@ -23,7 +24,8 @@ std::shared_ptr<RayTracer::ILight> RayTracer::AmbientLightFactory::createLight(c
         colorSetting.lookupValue("g", g);
         colorSetting.lookupValue("b", b);
     }
+    setting.lookupValue("shadow", canCastShadows);
 
     Color color(r, g, b);
-    return std::make_shared<AmbientLight>(intensity, color);
+    return std::make_shared<AmbientLight>(intensity, color, canCastShadows);
 }
