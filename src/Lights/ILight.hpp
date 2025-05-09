@@ -62,21 +62,6 @@ namespace RayTracer {
          */
         virtual Color getColor() const = 0;
         /**
-         * Checks if the light source is ambient.
-         * @return True if the light is ambient, false otherwise.
-         */
-        virtual bool isAmbient() const {return false;}
-        /**
-         * Checks if the light source is directional.
-         * @return True if the light is directional, false otherwise.
-         */
-        virtual bool isDirectional() const {return false;}
-        /**
-         * Checks if the light source is a point light.
-         * @return True if the light is a point light, false otherwise.
-         */
-        virtual bool isPoint() const {return false;}
-        /**
          * Checks if the light source is a spotlight.
          * @return True if the light is a spotlight, false otherwise.
          */
