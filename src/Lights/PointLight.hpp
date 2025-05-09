@@ -23,8 +23,9 @@ namespace RayTracer {
          * @param position The position of the light (default is (0, 0, 0)).
          * @param intensity The intensity of the light (default is 0.8).
          * @param color The color of the light (default is white).
+         * @param canCastShadow  If the light can have a shadow
          */
-         PointLight(const Vector3D& position, float intensity, const Color& color);
+         PointLight(const Vector3D& position, float intensity, const Color& color, const bool& canCastShadow);
 
         /**
          * Gets the position of the point light.
@@ -68,6 +69,7 @@ namespace RayTracer {
         Vector3D _position; ///< Position of the point light
         float _intensity; ///< Intensity of the point light
         Color _color; ///< Color of the point light
+        bool _canCastShadow; ///< Can Cast Shadow bool
     };
 }
 

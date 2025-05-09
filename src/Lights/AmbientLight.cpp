@@ -9,8 +9,8 @@
 
 namespace RayTracer {
 
-    AmbientLight::AmbientLight(float intensity, const Color& color)
-        : _intensity(intensity), _color(color) {}
+    AmbientLight::AmbientLight(float intensity, const Color& color, const bool& canCastShadow)
+        : _intensity(intensity), _color(color), _canCastShadow(canCastShadow) {}
 
     Color AmbientLight::calculateIllumination(
         [[maybe_unused]] const Point3D& point,
@@ -22,7 +22,7 @@ namespace RayTracer {
 
     bool AmbientLight::canCastShadow() const
     {
-        return false;
+        return _canCastShadow;
     }
 
     Color AmbientLight::getColor() const

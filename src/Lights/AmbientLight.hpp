@@ -22,8 +22,9 @@ namespace RayTracer {
          * Constructor for AmbientLight.
          * @param intensity The intensity of the ambient light (default is 0.4).
          * @param color The color of the ambient light (default is white).
+         * @param can cast shadow
          */
-        AmbientLight(float intensity, const Color& color);
+        AmbientLight(float intensity, const Color& color, const bool& canCastShadow);
 
         /**
          * Gets the position of the ambient light.
@@ -67,6 +68,7 @@ namespace RayTracer {
     private:
         float _intensity; ///< Intensity of the ambient light
         Color _color; ///< Color of the ambient light
+        bool _canCastShadow; ///< Can Cast Shadow bool
     };
 }
 
