@@ -98,6 +98,12 @@ namespace RayTracer {
         Vector3D normalized() const;
     };
 
+    /**
+     * Applies Euler rotation to a vector.
+     * @param v const Vector3D & The vector to rotate.
+     * @param rotation const Vector3D & The rotation angles in degrees (pitch, yaw, roll).
+     * @return The rotated vector.
+     */
     Vector3D eulerRotation(const Vector3D& v, const Vector3D& rotation);
 
     /**
