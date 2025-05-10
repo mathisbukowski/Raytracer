@@ -11,8 +11,17 @@
 #include "IMaterialFactory.hpp"
 
 namespace RayTracer {
+    /**
+     * @class TransparencyMaterialFactory
+     * Factory class for creating TransparencyMaterial instances.
+     */
     class TransparencyMaterialFactory : public IMaterialFactory {
-        std::shared_ptr<IMaterial> createMaterial(const libconfig::Setting& setting) override;
+        /**
+         * Creates a new TransparencyMaterial instance based on the provided configuration.
+         * @param setting The configuration setting for the material.
+         * @return A shared pointer to the created TransparencyMaterial instance.
+         */
+        std::shared_ptr<IMaterial> createMaterial(const libconfig::Setting &setting) override;
     };
 }
 

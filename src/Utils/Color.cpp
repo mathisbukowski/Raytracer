@@ -48,15 +48,15 @@ int Color::toInt(float value) const {
 }
 
 int Color::red() const {
-    return toInt(r);
+    return this->toInt(r);
 }
 
 int Color::green() const {
-    return toInt(g);
+    return this->toInt(g);
 }
 
 int Color::blue() const {
-    return toInt(b);
+    return this->toInt(b);
 }
 
 }

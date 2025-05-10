@@ -26,6 +26,5 @@ std::shared_ptr<RayTracer::ILight> RayTracer::AmbientLightFactory::createLight(c
     }
     setting.lookupValue("shadow", canCastShadows);
 
-    Color color(r, g, b);
-    return std::make_shared<AmbientLight>(intensity, color, canCastShadows);
+    return std::make_shared<AmbientLight>(intensity, Color(r, g, b), canCastShadows);
 }

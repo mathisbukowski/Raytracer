@@ -23,7 +23,7 @@ bool RayTracer::Cone::intersect(const RayTracer::Ray &ray, float &t, RayTracer::
 {
     Vector3D rayDir = ray.getDirection();
     Point3D rayOrigin = ray.getOrigin();
-    float halfAngle = getHalfAngle();
+    float halfAngle = this->getHalfAngle();
     float cosHalfAngleSq = cos(halfAngle) * cos(halfAngle);
     Vector3D originToApex = rayOrigin - _apex;
     float dotDirAxis = rayDir.dot(_axis);
@@ -56,7 +56,7 @@ bool RayTracer::Cone::intersect(const RayTracer::Ray &ray, float &t, RayTracer::
     bool hit_cone_side = (t_cone > 0);
     bool hit_base = false;
     float t_base = -1;
-    Point3D baseCenter = getBaseCenter();
+    Point3D baseCenter = this->getBaseCenter();
     float denom = rayDir.dot(_axis);
     if (fabs(denom) > 0.001f) {
         float t_base_plane = (baseCenter - rayOrigin).dot(_axis) / denom;

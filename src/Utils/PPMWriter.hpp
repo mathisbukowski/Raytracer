@@ -14,10 +14,21 @@
 
 namespace RayTracer {
 
-class PPMWriter {
-public:
-    static void write(const std::string& filename, int width, int height, const std::vector<Color>& framebuffer);
-};
+    /**
+     * @class PPMWriter
+     * Utility class for writing PPM (Portable Pixmap) files.
+     */
+    class PPMWriter {
+        public:
+            /**
+             * Writes a PPM file with the given width, height, and framebuffer data.
+             * @param filename The name of the output PPM file.
+             * @param width The width of the image.
+             * @param height The height of the image.
+             * @param framebuffer The pixel data for the image.
+             */
+            static void write(const std::string& filename, int width, int height, const std::vector<Color>& framebuffer);
+    };
 
 }
 

@@ -58,8 +58,8 @@ Color Engine::computeLighting(const Point3D& point, const Vector3D& normal, cons
 
 Color Engine::computeReflection(const Ray& ray, const Point3D& point, const Vector3D& normal, int depth)
 {
-    Ray reflectedRay = computeReflectedRay(point, ray.getDirection(), normal);
-    return traceRay(reflectedRay, depth + 1);
+    Ray reflectedRay = this->computeReflectedRay(point, ray.getDirection(), normal);
+    return this->traceRay(reflectedRay, depth + 1);
 }
 
 Color Engine::traceRay(const Ray& ray, int depth) {
@@ -87,11 +87,11 @@ Color Engine::traceRay(const Ray& ray, int depth) {
     Point3D intersection = ray.pointAt(t);
     Vector3D viewDir = -ray.getDirection();
 
-    Color lighting = computeLighting(intersection, normal, viewDir);
+    Color lighting = this->computeLighting(intersection, normal, viewDir);
     float reflectivity = material->getReflectivity();
 
     if (reflectivity > 0.0f) {
-        Color reflected = computeReflection(ray, intersection, normal, depth);
+        Color reflected = this->computeReflection(ray, intersection, normal, depth);
         return lighting * (1.0f - reflectivity) + reflected * reflectivity;
     }
 
@@ -108,7 +108,7 @@ void Engine::render(const std::string& outputFile) {
     for (int y = 0; y < _height; ++y) {
         for (int x = 0; x < _width; ++x) {
             Ray ray = _camera.generateRay(x, y);
-            Color color = traceRay(ray);
+            Color color = this->traceRay(ray);
             framebuffer[y * _width + x] = color;
         }
     }
