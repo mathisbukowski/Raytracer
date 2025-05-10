@@ -93,7 +93,7 @@ void RayTracer::Cone::translate(const RayTracer::Vector3D &translation)
 void RayTracer::Cone::rotate(const RayTracer::Vector3D &rotation)
 {
     float cosX = cosf(rotation.x);
-    float sinX = si nf(rotation.x);
+    float sinX = sinf(rotation.x);
     float cosY = cosf(rotation.y);
     float sinY = sinf(rotation.y);
     float cosZ = cosf(rotation.z);
