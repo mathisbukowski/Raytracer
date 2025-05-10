@@ -30,6 +30,5 @@ std::shared_ptr<RayTracer::ILight> RayTracer::DirectionalLightFactory::createLig
         colorSetting.lookupValue("b", b);
     }
     setting.lookupValue("shadow", canCastShadow);
-    Color color(r, g, b);
-    return std::make_shared<DirectionalLight>(direction, intensity, color, canCastShadow);
+    return std::make_shared<DirectionalLight>(direction, intensity, Color(r, g, b), canCastShadow);
 }

@@ -16,9 +16,9 @@ std::shared_ptr<RayTracer::IPrimitive> RayTracer::PlaneFactory::createPrimitive(
     double position = settings.lookup("position");
 
     const libconfig::Setting& colorSetting = settings.lookup("color");
-    int r = colorSetting.lookup("r");
-    int g = colorSetting.lookup("g");
-    int b = colorSetting.lookup("b");
+    float r = colorSetting.lookup("r");
+    float g = colorSetting.lookup("g");
+    float b = colorSetting.lookup("b");
     std::shared_ptr<IMaterial> material = nullptr;
     if (settings.exists("material")) {
         const libconfig::Setting& materialSetting = settings.lookup("material");
