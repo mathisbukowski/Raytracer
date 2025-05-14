@@ -45,6 +45,11 @@ namespace RayTracer {
             Camera(const Point3D& position, const Vector3D& rotation, float fov, int width, int height);
 
             /**
+             * Default constructor for Camera
+             */
+            Camera() = default;
+
+            /**
              * Destructor for the Camera class.
              */
             ~Camera() = default;

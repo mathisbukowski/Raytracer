@@ -18,7 +18,7 @@ RayTracer::SceneParser::SceneParser(const std::string& sceneFile, const std::sha
     _config = std::make_unique<libconfig::Config>();
     try {
         _config->readFile(sceneFile.c_str());
-    } catch (const libconfig::FileIOException& e) {
+    } catch (const libconfig::ParseException& e) {
         throw SceneParserError("Could not read file '" + sceneFile + "'");
     }
 }
