@@ -25,14 +25,20 @@ std::shared_ptr<RayTracer::IPrimitive> RayTracer::SphereFactory::createPrimitive
     if (settings.exists("material")) {
         const libconfig::Setting& materialSetting = settings.lookup("material");
         std::string materialType = materialSetting.lookup("type");
-        const libconfig::Setting& colorSetting = materialSetting.lookup("color");
-        double r = colorSetting.lookup("r");
-        double g = colorSetting.lookup("g");
-        double b = colorSetting.lookup("b");
 
-        color = Color(static_cast<float>(r), static_cast<float>(g), static_cast<float>(b));
+        Color matColor(1.0f, 1.0f, 1.0f);
+        if (materialSetting.exists("color")) {
+            const libconfig::Setting& colorSetting = materialSetting.lookup("color");
+            double r = 1.0, g = 1.0, b = 1.0;
+            colorSetting.lookupValue("r", r);
+            colorSetting.lookupValue("g", g);
+            colorSetting.lookupValue("b", b);
+            matColor = Color(static_cast<float>(r), static_cast<float>(g), static_cast<float>(b));
+        }
+
         auto factory = IMaterialFactory::getFactory(materialType);
         material = factory->createMaterial(materialSetting);
+        color = matColor;
     }
     return std::make_shared<Sphere>(Point3D(x, y, z), radius, color, material);
 }

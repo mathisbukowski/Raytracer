@@ -7,27 +7,13 @@
 
 #include "Plane.hpp"
 
-RayTracer::Plane::Plane(const std::string &axis, float position, const Color &color, const std::shared_ptr<RayTracer::IMaterial> &material)
+RayTracer::Plane::Plane(const Vector3D& normal, const Point3D& point, const std::shared_ptr<IMaterial>& material)
+    : _point(point), _normal(normal.normalized()), _material(material)
 {
-    _axis = axis;
-    _position = position;
-    _color = color;
-    _material = material;
-    _normal = Vector3D(0, 0, 0);
-    if (axis == "X")
-        _normal.x = 1.0f;
-    else if (axis == "Y")
-        _normal.y = 1.0f;
-    else if (axis == "Z")
-        _normal.z = 1.0f;
-    _point = Point3D(0, 0, 0);
-    if (axis == "X")
-        _point.x = position;
-    else if (axis == "Y")
-        _point.y = position;
-    else if (axis == "Z")
-        _point.z = position;
     _distance = _normal.dot(_point);
+    _axis = "custom";
+    _position = 0.0f;
+    _color = material ? material->getColor() : Color(1, 1, 1);
 }
 
 bool RayTracer::Plane::intersect(const RayTracer::Ray &ray, float &t, RayTracer::Vector3D &normal) const
