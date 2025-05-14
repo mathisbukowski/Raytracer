@@ -1,20 +1,29 @@
+/*
+** EPITECH PROJECT, 2025
+** RayTracer
+** File description:
+** main
+*/
+
 #include "Core/Engine.hpp"
 #include "SceneParser/SceneParser.hpp"
 #include <memory>
 #include <iostream>
 
-using namespace RayTracer;
-
-int main()
+int main(int ac, char **av)
 {
+    if (!av || ac > 2 || !av[1]) {
+        std::cerr << "Usage: " << av[0] << " <SCENE_FILE>" << std::endl;
+        return 84;
+    }
     try {
-        auto scene = std::make_shared<Scene>();
+        auto scene = std::make_shared<RayTracer::Scene>();
 
         std::cout << "[INFO] Creating SceneParser..." << std::endl;
-        SceneParser parser("scenes/hard_scene.cfg", scene);
+        RayTracer::SceneParser parser(av[1], scene);
 
         std::cout << "[INFO] Initializing camera..." << std::endl;
-        Camera cam = parser.initializeCamera();
+        RayTracer::Camera cam = parser.initializeCamera();
 
         std::cout << "[INFO] Initializing lights..." << std::endl;
         parser.initializeLights();
@@ -23,8 +32,8 @@ int main()
         parser.initializePrimitives();
 
         std::cout << "[INFO] Creating Engine..." << std::endl;
-        Engine engine(800, 600);
-        engine.setScene(*scene);
+        RayTracer::Engine engine(800, 600);
+        engine.setScene(scene.operator*());
         engine.setCamera(cam);
 
         std::cout << "[INFO] Rendering..." << std::endl;
@@ -32,7 +41,7 @@ int main()
 
     } catch (const std::exception& e) {
         std::cerr << "[ERROR] Exception: " << e.what() << std::endl;
-        return 1;
+        return 84;
     }
 
     std::cout << "[SUCCESS] Rendered successfully." << std::endl;
