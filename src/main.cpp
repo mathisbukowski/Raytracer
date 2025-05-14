@@ -10,6 +10,8 @@
 #include <memory>
 #include <iostream>
 
+#include "Build/EngineBuilder.hpp"
+
 int initializeParser(char** av, std::shared_ptr<RayTracer::Scene> scene, RayTracer::Camera& cam)
 {
     try {
@@ -31,12 +33,11 @@ int initializeParser(char** av, std::shared_ptr<RayTracer::Scene> scene, RayTrac
     return 0;
 }
 
-int rendererEngine(std::shared_ptr<RayTracer::Scene> scene, RayTracer::Camera cam, RayTracer::Engine& engine)
+int rendererEngine(std::shared_ptr<RayTracer::Scene> scene, RayTracer::Camera cam)
 {
     try {
-        std::cout << "[INFO] R Engine..." << std::endl;
-        engine.setScene(scene.operator*());
-        engine.setCamera(cam);
+        RayTracer::EngineBuilder engineBuilder;
+        RayTracer::Engine engine = engineBuilder.setResolution(800, 600).setCamera(cam).setScene(scene).build();
         std::cout << "[INFO] Rendering..." << std::endl;
         engine.render("output.ppm");
     } catch (const std::exception& e) {
@@ -54,11 +55,10 @@ int main(int ac, char **av)
     }
     auto scene = std::make_shared<RayTracer::Scene>();
     RayTracer::Camera cam;
-    RayTracer::Engine engine(800, 600);
 
     if (initializeParser(av, scene, cam) == 84)
         return 84;
-    if (rendererEngine(scene, cam, engine) == 84)
+    if (rendererEngine(scene, cam) == 84)
         return 84;
     std::cout << "[SUCCESS] Rendered successfully." << std::endl;
     return 0;
