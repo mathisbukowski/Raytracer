@@ -16,7 +16,11 @@ RayTracer::SceneParser::SceneParser(const std::string& sceneFile, const std::sha
     if (sceneFile.empty())
         throw SceneParserError("Scene file cannot be empty");
     _config = std::make_unique<libconfig::Config>();
-    _config->readFile(sceneFile.c_str());
+    try {
+        _config->readFile(sceneFile.c_str());
+    } catch (const libconfig::ParseException& e) {
+        throw SceneParserError("Could not read file '" + sceneFile + "'");
+    }
 }
 
 libconfig::Setting& RayTracer::SceneParser::getSceneRoot() const
