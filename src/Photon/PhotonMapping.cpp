@@ -107,7 +107,7 @@ namespace RayTracer {
 
                 if (scene.findNearestIntersection(photonRay, hitObj, t, normal)) {
                     Point3D hitPoint = photonRay.pointAt(t);
-                    Color power = light->getColor() * light->getIntensity() * 100.0f; // simple energy model
+                    Color power = light->getColor() * light->getIntensity() * 100.0f;
 
                     _photons.push_back(std::make_shared<Photon>(hitPoint, dir.normalized(), power));
                 }

@@ -117,7 +117,6 @@ void Engine::render(const std::string& outputFile) {
     _photonMapping.build(_scene.getLights(), _scene.getPrimitives(), _scene);
     std::vector<Color> framebuffer(_width * _height);
 
-    // Détermine le nombre de threads à utiliser (ex: nombre de cœurs logiques)
     const unsigned int threadCount = std::thread::hardware_concurrency();
     std::vector<std::thread> threads;
 
