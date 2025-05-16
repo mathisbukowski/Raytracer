@@ -96,6 +96,8 @@ namespace RayTracer {
          * @return The normalized vector.
          */
         Vector3D normalized() const;
+
+        float lengthSquared() const;
     };
 
     /**

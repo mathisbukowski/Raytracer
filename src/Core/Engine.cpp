@@ -10,6 +10,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <cmath>
+#include <thread>
 
 namespace RayTracer {
 
@@ -87,15 +88,25 @@ Color Engine::traceRay(const Ray& ray, int depth) {
     Point3D intersection = ray.pointAt(t);
     Vector3D viewDir = -ray.getDirection();
 
-    Color lighting = this->computeLighting(intersection, normal, viewDir);
+    Color direct = this->computeLighting(intersection, normal, viewDir);
+    Color indirect = _photonMapping.estimateRadiance(intersection, normal);
+    indirect = indirect * 0.5f;
+    Color lighting = direct * 0.8f + indirect * 0.2f;
+    lighting.clamp();
     float reflectivity = material->getReflectivity();
 
-    if (reflectivity > 0.0f) {
+    if (reflectivity > 0.1f) {
         Color reflected = this->computeReflection(ray, intersection, normal, depth);
         return lighting * (1.0f - reflectivity) + reflected * reflectivity;
     }
-
-    return lighting;
+    Color baseColor = material->getColor();
+    Color finalColor = Color(
+        lighting.r * baseColor.r,
+        lighting.g * baseColor.g,
+        lighting.b * baseColor.b
+    );
+    finalColor.clamp();
+    return finalColor;
 }
 
 void Engine::render(const std::string& outputFile) {
@@ -103,16 +114,38 @@ void Engine::render(const std::string& outputFile) {
         throw std::runtime_error("Engine error: camera or scene not set before rendering");
     }
 
+    _photonMapping.build(_scene.getLights(), _scene.getPrimitives(), _scene);
     std::vector<Color> framebuffer(_width * _height);
 
-    for (int y = 0; y < _height; ++y) {
-        for (int x = 0; x < _width; ++x) {
-            Ray ray = _camera.generateRay(x, y);
-            Color color = this->traceRay(ray);
-            framebuffer[y * _width + x] = color;
+    // Détermine le nombre de threads à utiliser (ex: nombre de cœurs logiques)
+    const unsigned int threadCount = std::thread::hardware_concurrency();
+    std::vector<std::thread> threads;
+
+    auto renderRange = [&](int startY, int endY) {
+        for (int y = startY; y < endY; ++y) {
+            for (int x = 0; x < _width; ++x) {
+                Ray ray = _camera.generateRay(x, y);
+                Color color = this->traceRay(ray);
+                framebuffer[y * _width + x] = color;
+            }
         }
+    };
+
+    int rowsPerThread = _height / threadCount;
+    unsigned int remainingRows = _height % threadCount;
+
+    int startY = 0;
+    for (unsigned int i = 0; i < threadCount; ++i) {
+        int endY = startY + rowsPerThread + (i < remainingRows ? 1 : 0);
+        threads.emplace_back(renderRange, startY, endY);
+        startY = endY;
     }
+
+    for (auto& t : threads)
+        t.join();
+
     PPMWriter::write(outputFile, _width, _height, framebuffer);
 }
+
 
 }

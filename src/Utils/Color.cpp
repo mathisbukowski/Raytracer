@@ -59,4 +59,9 @@ int Color::blue() const {
     return this->toInt(b);
 }
 
+    Color Color::operator/(float scalar) const
+    {
+        return Color(r / scalar, g / scalar, b / scalar);
+    }
+
 }

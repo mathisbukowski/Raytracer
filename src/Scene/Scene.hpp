@@ -23,7 +23,7 @@ namespace RayTracer {
     class Scene {
     private:
         std::vector<std::shared_ptr<IPrimitive>> _primitives; ///< List of primitives in the scene.
-        std::vector<std::shared_ptr<ILight>> _lights; ///< List of lights in the scene.
+            std::vector<std::shared_ptr<ILight>> _lights; ///< List of lights in the scene.
         Color _backgroundColor; ///< Background color of the scene.
 
     public:

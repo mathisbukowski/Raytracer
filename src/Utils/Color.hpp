@@ -88,6 +88,8 @@ namespace RayTracer {
              */
             int blue() const;
 
+            Color operator/(float scalar) const;
+
         private:
             /**
              * Converts a float value to an integer in the range [0, 255].
