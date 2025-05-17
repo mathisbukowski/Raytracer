@@ -87,15 +87,21 @@ Color Engine::traceRay(const Ray& ray, int depth) {
     Point3D intersection = ray.pointAt(t);
     Vector3D viewDir = -ray.getDirection();
 
+    Color materialColor = material->getColor();
     Color lighting = this->computeLighting(intersection, normal, viewDir);
+    Color finalColor = Color(
+            materialColor.r * lighting.r,
+            materialColor.g * lighting.g,
+            materialColor.b * lighting.b
+    );
+
     float reflectivity = material->getReflectivity();
 
     if (reflectivity > 0.0f) {
         Color reflected = this->computeReflection(ray, intersection, normal, depth);
-        return lighting * (1.0f - reflectivity) + reflected * reflectivity;
+        return finalColor * (1.0f - reflectivity) + reflected * reflectivity;
     }
-
-    return lighting;
+    return finalColor;
 }
 
 void Engine::render(const std::string& outputFile) {
