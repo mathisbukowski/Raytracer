@@ -78,7 +78,7 @@ class Engine {
 
     void setMultithreadingConfig(bool enable, unsigned int threadCount = 0) {
         _enableMultithreading = enable;
-        _threadCount = threadCount;  // 0 = auto-détection
+        _threadCount = threadCount;
     }
 
     private:
