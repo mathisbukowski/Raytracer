@@ -58,23 +58,31 @@ namespace RayTracer {
         std::unique_ptr<KDNode> _root;
 
         std::unique_ptr<KDNode> build(std::vector<std::shared_ptr<Photon>> photons, int depth);
-        void search(KDNode* node, const Point3D& target, float radiusSquared, int maxPhotons,
+        void search(KDNode *node, const Point3D& target, float radiusSquared, int maxPhotons,
                     std::vector<std::shared_ptr<Photon>>& result) const;
     };
 
     class PhotonMapping {
     public:
         PhotonMapping() = default;
+        void build(const std::vector<std::shared_ptr<ILight>>&, const std::vector<std::shared_ptr<IPrimitive>>&, const Scene&);
+        Color estimateRadiance(const Point3D& position, const Vector3D& normal, float radius, int maxPhotons) const;
 
-        void build(const std::vector<std::shared_ptr<ILight>>& lights, const std::vector<std::shared_ptr<IPrimitive>>& objects, const Scene& scene);
+        void setGatherRadius(float radius) { _radius = radius; }
+        void setMaxPhotons(int maxPhotons) { _maxPhotons = maxPhotons; }
+        float getGatherRadius() const { return _radius; }
+        int getMaxPhotons() const { return _maxPhotons; }
 
-        Color estimateRadiance(const Point3D& position, const Vector3D& normal, float radius = 100.0f, int maxPhotons = 1000) const;
+        bool isEnabled() const { return _enabled && _tree != nullptr; }
+        void enable(bool val = true) { _enabled = val; }
         static float distanceSquared(const Point3D& a, const Point3D& b);
-    private:
 
+    private:
         std::vector<std::shared_ptr<Photon>> _photons;
         std::shared_ptr<KDTree> _tree;
-
+        float _radius = 1.0f;
+        int _maxPhotons = 100;
+        bool _enabled = true;
 
     };
 };

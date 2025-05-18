@@ -17,6 +17,9 @@ int rendererEngine(std::shared_ptr<RayTracer::Scene> scene, RayTracer::Camera ca
     try {
         RayTracer::EngineBuilder engineBuilder;
         RayTracer::Engine engine = engineBuilder.setResolution(800, 600).setCamera(cam).setScene(scene).build();
+        engine.setMultithreadingConfig(true);
+        engine.buildPhotonMap(1.0f, 100);
+
         std::cout << "[INFO] Rendering..." << std::endl;
         engine.render("output.ppm");
     } catch (const std::exception& e) {

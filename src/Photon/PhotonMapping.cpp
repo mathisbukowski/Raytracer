@@ -35,7 +35,7 @@ namespace RayTracer {
         return (a - b).lengthSquared();
     }
 
-    void KDTree::search(KDNode* node, const Point3D& target, float radiusSquared, int maxPhotons, std::vector<std::shared_ptr<Photon>>& result) const
+    void KDTree::search(KDNode *node, const Point3D& target, float radiusSquared, int maxPhotons, std::vector<std::shared_ptr<Photon>>& result) const
     {
         if (!node)
             return;
@@ -45,16 +45,11 @@ namespace RayTracer {
         if (dist2 <= radiusSquared)
             result.push_back(node->_photon);
 
-        float diff = (node->_axis == 0 ? target.x - pos.x :
-                          node->_axis == 1 ? target.y - pos.y :
-                          target.z - pos.z);
+        float diff = (node->_axis == 0 ? target.x - pos.x : node->_axis == 1 ? target.y - pos.y : target.z - pos.z);
 
-        KDNode* near = diff < 0 ? node->_left.get() : node->_right.get();
-        KDNode* far  = diff < 0 ? node->_right.get() : node->_left.get();
-
-        search(near, target, radiusSquared, maxPhotons, result);
+        this->search(diff < 0 ? node->_left.get() : node->_right.get(), target, radiusSquared, maxPhotons, result);
         if (diff * diff <= radiusSquared && result.size() < static_cast<size_t>(maxPhotons)) {
-            search(far, target, radiusSquared, maxPhotons, result);
+            this->search(diff < 0 ? node->_right.get() : node->_left.get(), target, radiusSquared, maxPhotons, result);
         }
     }
 
@@ -76,10 +71,8 @@ namespace RayTracer {
         auto node = std::make_unique<KDNode>(photons[median], axis);
         std::vector<std::shared_ptr<Photon>> left(photons.begin(), photons.begin() + median);
         std::vector<std::shared_ptr<Photon>> right(photons.begin() + median + 1, photons.end());
-
         node->_left = build(left, depth + 1);
         node->_right = build(right, depth + 1);
-
         return node;
     }
 
@@ -90,7 +83,7 @@ namespace RayTracer {
     {
         _photons.clear();
         (void)objects;
-        const int photonCount = 100000;
+        const int photonCount = 1000000;
         std::default_random_engine rng;
         std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
 
@@ -107,8 +100,7 @@ namespace RayTracer {
 
                 if (scene.findNearestIntersection(photonRay, hitObj, t, normal)) {
                     Point3D hitPoint = photonRay.pointAt(t);
-                    Color power = light->getColor() * light->getIntensity() * 100.0f;
-
+                    Color power = light->getColor() * light->getIntensity();
                     _photons.push_back(std::make_shared<Photon>(hitPoint, dir.normalized(), power));
                 }
             }
