@@ -10,11 +10,13 @@
 #include <unordered_map>
 
 #include "FlatColorMaterialFactory.hpp"
+#include "TransparencyMaterialFactory.hpp"
 
 std::shared_ptr<RayTracer::IMaterialFactory> RayTracer::IMaterialFactory::getFactory(const std::string& type)
 {
     static std::unordered_map<std::string, std::shared_ptr<IMaterialFactory>> factoryMap = {
-        {"flat", std::make_shared<FlatColorMaterialFactory>()}
+        {"flat", std::make_shared<FlatColorMaterialFactory>()},
+        {"transparent", std::make_shared<TransparencyMaterialFactory>()},
     };
 
     auto it = factoryMap.find(type);

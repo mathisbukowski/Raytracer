@@ -10,6 +10,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <cmath>
+#include <algorithm>
 
 namespace RayTracer {
 
@@ -62,6 +63,48 @@ Color Engine::computeReflection(const Ray& ray, const Point3D& point, const Vect
     return this->traceRay(reflectedRay, depth + 1);
 }
 
+Ray Engine::computeRefractedRay(const Ray& ray, const Point3D& point, const Vector3D& normal, float refractiveIndex) {
+    Vector3D incident = ray.getDirection();
+    float cosi = std::clamp(incident.dot(normal), -1.0f, 1.0f);
+    float etai = 1.0f;
+    float etat = refractiveIndex;
+    Vector3D n = normal;
+
+    if (cosi < 0) {
+        cosi = -cosi;
+    } else {
+        std::swap(etai, etat);
+        n = -normal;
+    }
+    float eta = etai / etat;
+    float k = 1.0f - eta * eta * (1.0f - cosi * cosi);
+    if (k < 0.0f) {
+        Vector3D reflectedDir = incident - 2.0f * incident.dot(normal) * normal;
+        return Ray(point + normal * 0.001f, reflectedDir.normalized());
+    } else {
+        Vector3D refractDir = eta * incident + (eta * cosi - std::sqrt(k)) * n;
+        return Ray(point - n * 0.001f, refractDir.normalized());
+    }
+}
+
+float Engine::computeFresnelReflectance(const Vector3D& incident, const Vector3D& normal, float refractiveIndex) {
+    float cosi = std::clamp(incident.dot(normal), -1.0f, 1.0f);
+    float etai = 1.0f, etat = refractiveIndex;
+
+    if (cosi > 0) {
+        std::swap(etai, etat);
+    }
+    float sint = etai / etat * std::sqrt(std::max(0.0f, 1.0f - cosi * cosi));
+    if (sint >= 1.0f) {
+        return 1.0f;
+    }
+    float cost = std::sqrt(std::max(0.0f, 1.0f - sint * sint));
+    cosi = std::abs(cosi);
+    float Rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost));
+    float Rp = ((etai * cosi) - (etat * cost)) / ((etai * cosi) + (etat * cost));
+    return (Rs * Rs + Rp * Rp) / 2.0f;
+}
+
 Color Engine::traceRay(const Ray& ray, int depth) {
     if (depth > MAX_DEPTH)
         return _scene.getBackgroundColor();
@@ -88,6 +131,13 @@ Color Engine::traceRay(const Ray& ray, int depth) {
     Vector3D viewDir = -ray.getDirection();
 
     Color materialColor = material->getColor();
+    float reflectivity = material->getReflectivity();
+    float transparency = material->getTransparency();
+    float refractiveIndex = 1.5f;
+
+    if (transparency >= 0.99f && materialColor.r <= 0.01f && materialColor.g <= 0.01f && materialColor.b <= 0.01f) {
+        materialColor = Color(0.01f, 0.01f, 0.01f);
+    }
     Color lighting = this->computeLighting(intersection, normal, viewDir);
     Color finalColor = Color(
             materialColor.r * lighting.r,
@@ -95,12 +145,25 @@ Color Engine::traceRay(const Ray& ray, int depth) {
             materialColor.b * lighting.b
     );
 
-    float reflectivity = material->getReflectivity();
+    if ((reflectivity > 0.0f || transparency > 0.0f) && depth < MAX_DEPTH) {
+        float kr = reflectivity;
 
-    if (reflectivity > 0.0f) {
-        Color reflected = this->computeReflection(ray, intersection, normal, depth);
-        return finalColor * (1.0f - reflectivity) + reflected * reflectivity;
+        if (transparency > 0.0f) {
+            kr = computeFresnelReflectance(ray.getDirection(), normal, refractiveIndex);
+
+            Ray refractedRay = computeRefractedRay(ray, intersection, normal, refractiveIndex);
+            Color refractedColor = traceRay(refractedRay, depth + 1);
+            finalColor = finalColor * (1.0f - transparency * (1.0f - kr)) +
+                         refractedColor * transparency * (1.0f - kr);
+        }
+        if (kr > 0.0f) {
+            Ray reflectedRay = computeReflectedRay(intersection, ray.getDirection(), normal);
+            Color reflectedColor = traceRay(reflectedRay, depth + 1);
+            float reflectAmount = kr * (reflectivity > 0.0f ? reflectivity : transparency);
+            finalColor = finalColor * (1.0f - reflectAmount) + reflectedColor * reflectAmount;
+        }
     }
+
     return finalColor;
 }
 

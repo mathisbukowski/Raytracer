@@ -84,6 +84,8 @@ class Engine {
          * @return The reflected ray as a Vector3D.
          */
         Ray computeReflectedRay(const Point3D& origin, const Vector3D& incident, const Vector3D& normal);
+        Ray computeRefractedRay(const Ray& ray, const Point3D& point, const Vector3D& normal, float refractiveIndex);
+        float computeFresnelReflectance(const Vector3D& incident, const Vector3D& normal, float refractiveIndex);
 };
 
 }
