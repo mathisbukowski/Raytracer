@@ -15,6 +15,7 @@
 #include "../Scene/Camera.hpp"
 #include "../Utils/Color.hpp"
 #include "../Core/Ray.hpp"
+#include "Photon/PhotonMapping.hpp"
 
 namespace RayTracer {
 
@@ -67,6 +68,19 @@ class Engine {
          * @return The computed reflection color at the point.
          */
         Color computeReflection(const Ray& ray, const Point3D& point, const Vector3D& normal, int depth);
+
+        /**
+         * Build the photon mapping class
+         * @param radius radius of exploitation
+         * @param maxPhotons to work with
+         */
+        void buildPhotonMap(float radius, int maxPhotons);
+
+    void setMultithreadingConfig(bool enable, unsigned int threadCount = 0) {
+        _enableMultithreading = enable;
+        _threadCount = threadCount;
+    }
+
     private:
         Scene _scene; ///< The scene to be rendered.
         Camera _camera; ///< The camera used for rendering.
@@ -75,7 +89,14 @@ class Engine {
         bool _cameraSet = false; ///< Flag to check if the camera is set.
         bool _sceneSet = false; ///< Flag to check if the scene is set.
         static constexpr int MAX_DEPTH = 5; ///< Maximum recursion depth for reflections.
+        bool _enableMultithreading = true;
+        unsigned int _threadCount = 0;
+        std::shared_ptr<PhotonMapping> _photonMapping = std::make_shared<PhotonMapping>(); ///> PhotonMapping Class
 
+        /**
+         *
+         */
+        void renderBlock(std::vector<Color>& framebuffer, int startY, int endY);
         /**
          * Computes the reflected ray based on the incident ray and the normal at the intersection point.
          * @param origin const Point3D & The origin of the ray.

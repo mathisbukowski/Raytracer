@@ -60,7 +60,7 @@ Vector3D Vector3D::normalized() const {
     float len = length();
 
     if (len == 0.0f)
-        return *this;
+        return Vector3D(0, 0, 0);
     return *this / len;
 }
 
@@ -82,6 +82,10 @@ Vector3D eulerRotation(const Vector3D& v, const Vector3D& rotation) {
 
 Vector3D operator*(float scalar, const Vector3D& v) {
     return v * scalar;
+}
+
+float Vector3D::lengthSquared() const {
+    return x * x + y * y + z * z;
 }
 
 }
