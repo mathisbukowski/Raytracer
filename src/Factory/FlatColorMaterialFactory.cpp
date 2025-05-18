@@ -24,11 +24,8 @@ std::shared_ptr<RayTracer::IMaterial> RayTracer::FlatColorMaterialFactory::creat
     float g = colorSetting.lookup("g");
     float b = colorSetting.lookup("b");
 
-    float transparency = 0.0f;
-    setting.lookupValue("transparency", transparency);
 
     return std::make_shared<FlatColorMaterial>(
-        Color(r, g, b),
-        transparency
+        Color(r, g, b)
     );
 }
